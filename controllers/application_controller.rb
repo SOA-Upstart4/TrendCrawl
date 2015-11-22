@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/flash'
-require 'chartkick' #Create beautiful Javascript charts with one line of Ruby
+require 'chartkick' # Create beautiful Javascript charts with one line of Ruby
 
 require 'httparty'
 require 'slim'
@@ -60,27 +60,15 @@ class ApplicationController < Sinatra::Base
   end
 
   app_post_trend = lambda do
-    request_url = trend_api_url "trend"
-    categories = params[:categories]
-    params_h = { categories: categories }
+    form = TrendForm.new(params)
+    error_send(back, "Following fields are required: #{form.error_fields}") \
+      unless form.valid?
 
-    options = {
-      body: params_h.to_json,
-      headers: { 'Content-Type' => 'application/json' }
-    }
+    result = GetTrendFromAPI.new(trend_api_url('trend'), form).call
+    error_send back, 'Could not process your request' if (result.code != 200)
 
-    result = HTTParty.post(request_url, options)
-
-    if (result.code != 200)
-      flash[:notice] = 'Could not process your request'
-      redirect '/trend'
-      return nil
-    end
-
-    id = result.request.last_uri.path.split('/').last
-    session[:results] = result.to_json
-    session[:action] = :create
-    redirect "/trend/#{id}"
+    session[:results] = result
+    redirect "/trend/#{result.id}"
   end
 
   app_get_trend_id = lambda do
@@ -109,8 +97,6 @@ class ApplicationController < Sinatra::Base
     redirect '/trend'
   end
 
-  # To be added: app_get_trend, app_post_trend,app_get_trend_id, app_delete_trend_id
-
   # Web App Views Routes
   get '/?', &app_get_root
   get '/feed/?', &app_get_feed
@@ -119,5 +105,4 @@ class ApplicationController < Sinatra::Base
   post '/trend/?', &app_post_trend
   get '/trend/:id/?', &app_get_trend_id
   delete '/trend/:id/?', &app_delete_trend_id
-  # To be added: get '/trend', post '/trend', get '/trend/:id', delete '/trend/:id'
 end
