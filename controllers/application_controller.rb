@@ -11,7 +11,7 @@ require 'active_support/core_ext'
 class ApplicationController < Sinatra::Base
   helpers ApplicationHelpers
   use Rack::Session::Pool
-  use Sinatra::Flash
+  register Sinatra::Flash
   use Rack::MethodOverride
 
   set :views, File.expand_path('../../views', __FILE__)
