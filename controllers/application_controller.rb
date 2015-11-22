@@ -1,13 +1,19 @@
 require 'sinatra/base'
 require 'sinatra/flash'
+require 'chartkick' #Create beautiful Javascript charts with one line of Ruby
+
 require 'httparty'
 require 'hirb'
+require 'hirb-unicode'
 require 'slim'
 
+require 'active_support'
+require 'active_support/core_ext'
+
 class ApplicationController < Sinatra::Base
-  helpers BNextHelpers, TrendHelpers
+  helpers ApplicationHelpers
   use Rack::Session::Pool
-  register Sinatra::Flash
+  use Sinatra::Flash
   use Rack::MethodOverride
 
   set :views, File.expand_path('../../views', __FILE__)
