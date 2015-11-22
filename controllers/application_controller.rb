@@ -1,14 +1,18 @@
 require 'sinatra/base'
 require 'sinatra/flash'
+require 'rack-flash'
 require 'httparty'
-require 'hirb'
 require 'slim'
 
+require 'active_support'
+require 'active_support/core_ext'
+
 class ApplicationController < Sinatra::Base
-  helpers BNextHelpers, TrendHelpers
-  use Rack::Session::Pool
-  register Sinatra::Flash
   use Rack::MethodOverride
+  use Rack::Session::Pool
+  use Rack::Flash
+  register Sinatra::Flash # to be deleted
+  helpers ApplicationHelpers
 
   set :views, File.expand_path('../../views', __FILE__)
   set :public_folder, File.expand_path('../../public', __FILE__)
@@ -17,18 +21,15 @@ class ApplicationController < Sinatra::Base
     enable :logging
   end
 
-  # Web app views
+  # Web functions
   app_get_root = lambda do
     slim :home
   end
 
   app_get_feed = lambda do
     @ranktype = params[:ranktype]
-    # @cat = params['cat'] if params.has_key? 'cat'
-    # @page_no = params['page'] if params.has_key? 'page'
     if @ranktype
       redirect "/feed/#{@ranktype}"
-      # To be included: redirect to get feeds in specific cat/page
       return nil
     end
 
@@ -36,18 +37,37 @@ class ApplicationController < Sinatra::Base
   end
 
   app_get_feed_ranktype = lambda do
-    @ranktype = params[:ranktype]
-    @cat = params['cat'] if params.has_key? 'cat'
-    @page_no = params['page'] if params.has_key? 'page'
-    @rank = get_ranks(@ranktype, @cat, @page_no)
+    # @ranktype = params[:ranktype]
+    # @cat = params['cat'] if params.has_key? 'cat'
+    # @page_no = params['page'] if params.has_key? 'page'
+    # @rank = get_ranks(@ranktype, @cat, @page_no)
 
-    if @ranktype && @rank.nil?
-      flash[:notice] = 'no feed found' if @rank.nil?
+    # if @ranktype && @rank.nil?
+    #   flash[:notice] = 'no feed found' if @rank.nil?
+    #   redirect '/feed'
+    #   return nil
+    # end
+
+    # slim :feed
+
+    # TODO: Implement the function with Web APIs
+    options = { headers: { 'Content-Type' => 'application/json' } }
+    @rank = HTTParty.get(api_url("#{params[:ranktype]}"), options)
+    logger.info api_url("#{params[:ranktype]}")
+    if @rank.code != 200
+      flash[:notice] = 'Getting rank error'
+      redirect '/feed'
+      return nil
+    end
+
+    if @rank.nil?
+      flash[:notice] = 'no feed found'
       redirect '/feed'
       return nil
     end
 
     slim :feed
+
   end
 
   app_get_trend = lambda do
@@ -56,36 +76,26 @@ class ApplicationController < Sinatra::Base
   end
 
   app_post_trend = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/trend"
-    categories = params[:categories]
-    params_h = { categories: categories }
+    form = TrendForm.new(params)
+    results = GetTrendFromAPI.new(api_url("trend"), form).call
 
-    options = {
-      body: params_h.to_json,
-      headers: { 'Content-Type' => 'application/json' }
-    }
-
-    result = HTTParty.post(request_url, options)
-
-    if (result.code != 200)
+    if (results.code != 200)
       flash[:notice] = 'Could not process your request'
       redirect '/trend'
       return nil
     end
 
-    id = result.request.last_uri.path.split('/').last
-    session[:results] = result.to_json
+    session[:results] = results.to_json
     session[:action] = :create
-    redirect "/trend/#{id}"
+    redirect "/trend/#{results.id}"
   end
 
   app_get_trend_id = lambda do
     if session[:action] == :create
       @results = JSON.parse(session[:results])
     else
-      request_url = "#{settings.api_server}/#{settings.api_ver}/trend/#{params[:id]}"
       options =  { headers: { 'Content-Type' => 'application/json' } }
-      @results = HTTParty.get(request_url, options)
+      @results = HTTParty.get(api_url("trend/#{params[:id]}"), options)
       if @results.code != 200
         flash[:notice] = 'Cannot find record'
         redirect '/trend'
@@ -99,15 +109,12 @@ class ApplicationController < Sinatra::Base
   end
 
   app_delete_trend_id = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/trend/#{params[:id]}"
-    HTTParty.delete(request_url)
+    HTTParty.delete api_url("trend/#{params[:id]}")
     flash[:notice] = 'record of trend deleted'
     redirect '/trend'
   end
 
-  # To be added: app_get_trend, app_post_trend,app_get_trend_id, app_delete_trend_id
-
-  # Web App Views Routes
+  # Web Routes
   get '/?', &app_get_root
   get '/feed/?', &app_get_feed
   get '/feed/:ranktype/?', &app_get_feed_ranktype
@@ -115,5 +122,5 @@ class ApplicationController < Sinatra::Base
   post '/trend/?', &app_post_trend
   get '/trend/:id/?', &app_get_trend_id
   delete '/trend/:id/?', &app_delete_trend_id
-  # To be added: get '/trend', post '/trend', get '/trend/:id', delete '/trend/:id'
+
 end
