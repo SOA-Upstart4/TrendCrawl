@@ -37,19 +37,6 @@ class ApplicationController < Sinatra::Base
   end
 
   app_get_feed_ranktype = lambda do
-    # @ranktype = params[:ranktype]
-    # @cat = params['cat'] if params.has_key? 'cat'
-    # @page_no = params['page'] if params.has_key? 'page'
-    # @rank = get_ranks(@ranktype, @cat, @page_no)
-
-    # if @ranktype && @rank.nil?
-    #   flash[:notice] = 'no feed found' if @rank.nil?
-    #   redirect '/feed'
-    #   return nil
-    # end
-
-    # slim :feed
-
     # TODO: Implement the function with Web APIs
     options = { headers: { 'Content-Type' => 'application/json' } }
     @rank = HTTParty.get(api_url("#{params[:ranktype]}"), options)
