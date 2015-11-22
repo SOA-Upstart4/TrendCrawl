@@ -62,7 +62,7 @@ class ApplicationController < Sinatra::Base
   end
 
   app_post_trend = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/trend"
+    request_url = trend_api_url "trend"
     categories = params[:categories]
     params_h = { categories: categories }
 
@@ -89,7 +89,7 @@ class ApplicationController < Sinatra::Base
     if session[:action] == :create
       @results = JSON.parse(session[:results])
     else
-      request_url = "#{settings.api_server}/#{settings.api_ver}/trend/#{params[:id]}"
+      request_url = trend_api_url "trend/#{params[:id]}"
       options =  { headers: { 'Content-Type' => 'application/json' } }
       @results = HTTParty.get(request_url, options)
       if @results.code != 200
@@ -105,7 +105,7 @@ class ApplicationController < Sinatra::Base
   end
 
   app_delete_trend_id = lambda do
-    request_url = "#{settings.api_server}/#{settings.api_ver}/trend/#{params[:id]}"
+    request_url = trend_api_url "trend/#{params[:id]}"
     HTTParty.delete(request_url)
     flash[:notice] = 'record of trend deleted'
     redirect '/trend'
