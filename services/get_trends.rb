@@ -2,16 +2,20 @@ require 'virtus'
 
 ##
 # Value object for results from getting newest trend
-class TutorialResult
+class TrendResult
   include Virtus.model
 
   attribute :code
   attribute :id
-  attribute :description
-  attribute :categories
+  attribute :data # which is a Hash with category as key and feed object as value
+
+  def initialize(data)
+    @data = Hash.new
+    data.map { |k, v| @data[k] = v }
+  end
 
   def to_json
-    to_hash.to_json
+    @data.to_json
   end
 end
 
@@ -20,9 +24,10 @@ class GetTrendFromAPI
   def initialize(api_url, form)
     @api_url = api_url
     params = form.attributes.delete_if { |_, value| value.blank? }
-    @options = { body: params.to_json,
-                  headers: { 'Content-Type' => 'application/json' }
-                }
+    @options = {
+      body: params.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    }
   end
 
   def call
