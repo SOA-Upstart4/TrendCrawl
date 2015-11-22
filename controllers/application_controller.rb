@@ -3,8 +3,6 @@ require 'sinatra/flash'
 require 'chartkick' #Create beautiful Javascript charts with one line of Ruby
 
 require 'httparty'
-require 'hirb'
-require 'hirb-unicode'
 require 'slim'
 
 require 'active_support'
