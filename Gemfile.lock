@@ -17,7 +17,6 @@ GEM
     backports (3.6.7)
     bond (0.5.1)
     builder (3.2.2)
-    chartkick (1.4.1)
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     coercible (1.0.0)
@@ -43,6 +42,8 @@ GEM
     multi_xml (0.5.5)
     puma (2.15.3)
     rack (1.6.4)
+    rack-flash3 (1.0.5)
+      rack
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -108,7 +109,6 @@ PLATFORMS
 DEPENDENCIES
   activemodel
   activesupport
-  chartkick
   headless
   httparty
   json
@@ -116,6 +116,7 @@ DEPENDENCIES
   minitest-rg
   puma
   rack
+  rack-flash3
   rack-test
   rake
   rerun

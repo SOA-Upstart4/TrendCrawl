@@ -6,16 +6,15 @@ gem 'sinatra-contrib'
 gem 'json'
 gem 'virtus'
 gem 'activemodel'
-
 gem 'httparty'
 
-#gem 'rack-flash3'
-gem 'sinatra-flash' 
-gem 'slim'
-gem 'tilt'
-gem 'chartkick'
+gem 'rack-flash3'
 
 gem 'activesupport'
+
+gem 'sinatra-flash'
+gem 'slim'
+gem 'tilt'
 
 group :development do
   gem 'tux'
