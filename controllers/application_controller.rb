@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
   # Web functions
   app_get_root = lambda do
-    slim :home
+    slim :trend_bs
   end
 
   app_get_feed = lambda do
