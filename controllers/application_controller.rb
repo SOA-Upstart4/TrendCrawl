@@ -35,7 +35,8 @@ class ApplicationController < Sinatra::Base
       return nil
     end
 
-    slim :feed
+    # slim :feed
+    slim :article_bs
   end
 
   app_get_feed_ranktype = lambda do
@@ -55,8 +56,8 @@ class ApplicationController < Sinatra::Base
       return nil
     end
 
-    slim :feed
-
+    # slim :feed
+    slim :article_bs
   end
 
   app_get_trend = lambda do
