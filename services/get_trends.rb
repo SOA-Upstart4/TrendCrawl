@@ -7,11 +7,10 @@ class TrendResult
 
   attribute :code
   attribute :id
-  attribute :description
-  attribute :categories
+  attribute :data # which is a Hash with category as key and feed object as value
 
   def to_json
-    to_hash.to_json
+    @data.to_json
   end
 end
 
@@ -27,10 +26,9 @@ class GetTrendFromAPI
   end
 
   def call
-    result = HTTParty.post(@api_url, @options)
-    trend_results = TrendResult.new(result)
-    trend_results.code = result.code
-    trend_results.id = result.request.last_uri.path.split('/').last
+    results = HTTParty.post(@api_url, @options)
+    trend_results = TrendResult.new(code: results.code, data: results)
+    trend_results.id = results.request.last_uri.path.split('/').last
     trend_results
   end
 end

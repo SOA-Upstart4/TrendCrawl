@@ -1,0 +1,90 @@
+css:
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+  .row.content {height: 550px}
+      
+  /* Set gray background color and 100% height */
+  .sidenav {
+    background-color: #f0f0f0;
+    height: 100%;
+  }
+          
+  /* On small screens, set height to 'auto' for the grid */
+  @media screen and (max-width: 767px) {
+    .row.content {height: auto;} 
+  }
+
+/! Collapsible Navbar for small screens
+nav.navbar.navbar-inverse.visible-xs
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle data-target="#myNavbar" data-toggle="collapse" type="button" 
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand href="#"  Keywords
+    #myNavbar.collapse.navbar-collapse
+      .input-group
+        input.form-control placeholder=("Your Keyword") type="text" /
+        span.input-group-btn
+          button.btn.btn-default type="button" 
+            span.glyphicon.glyphicon-search
+      ul.nav.navbar-nav
+        li.active
+          a href="#section1" 
+            span.glyphicon.glyphicon-unchecked
+            | E-commerce
+        li
+          a href="#section2" 
+            span.glyphicon.glyphicon-unchecked
+            | Facebook
+        li
+          a href="#section3" 
+            span.glyphicon.glyphicon-unchecked
+            | Paypal
+        li
+          a href="#section3" 
+            span.glyphicon.glyphicon-unchecked
+            | eBay
+.container-fluid
+  .row.content
+    .col-sm-9
+      .page-header
+        h1 Explore with FirstGlance
+      ul.nav.nav-tabs
+        li.active
+          a href="#" 
+            span.glyphicon.glyphicon-signal
+            | Trend
+        li
+          a href="#"  Article
+        li
+          a href="#"  About
+      .well
+        h4 Dashboard
+        p Our visualization here..
+    .col-sm-3.sidenav.hidden-xs
+      h2 Keywords
+      ul.nav.nav-pills.nav-stacked
+      .input-group
+        input.form-control placeholder=("Your Keyword") type="text" /
+        span.input-group-btn
+          button.btn.btn-default type="button" 
+            span.glyphicon.glyphicon-search
+      li.active
+        a href="#section1" 
+          span.glyphicon.glyphicon-unchecked
+          | E-commerce
+      li
+        a href="#section2" 
+          span.glyphicon.glyphicon-unchecked
+          | Facebook
+      li
+        a href="#section3" 
+          span.glyphicon.glyphicon-unchecked
+          | Paypal
+      li
+        a href="#section3" 
+          span.glyphicon.glyphicon-unchecked
+          | eBay
+      br/
+    br/

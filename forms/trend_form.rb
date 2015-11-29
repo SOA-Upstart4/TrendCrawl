@@ -1,8 +1,6 @@
 require 'virtus'
 require 'active_model'
 
-##
-# Form object
 class TrendForm
   include Virtus.model
   include ActiveModel::Validations
