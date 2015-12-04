@@ -16,7 +16,7 @@ describe 'Trend Crawl' do
     end
 
     it 'finds the header' do
-      @browser.h1.text.must_equal 'Explore with FirstGlance'
+      @browser.execute_script("return (typeof arguments[0].naturalWidth!=\"undefined\" && arguments[0].naturalWidth>0)", @browser.image(id: 'header'))
     end
 
     it 'has three tabs' do
@@ -34,7 +34,7 @@ describe 'Trend Crawl' do
     it 'show dashboard' do
       @browser.link(text: 'Trend').click
 
-      @browser.h4.text.must_equal 'Dashboard'
+      @browser.div(id: 'plot').present?.must_equal true
     end
   end
 
