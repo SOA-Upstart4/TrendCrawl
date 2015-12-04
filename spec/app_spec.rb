@@ -27,18 +27,22 @@ describe 'Trend Crawl' do
   end
 
   describe 'Go to trend_bs page' do
-    it 'show dashboard' do
-      @browser.link(text: 'Trend').click
+    it 'show plot' do
+      visit TrendPage do |page|
+        page.click_trend_tab
 
-      @browser.div(id: 'plot').present?.must_equal true
+        page.plot_element.present?.must_equal true
+      end
     end
   end
 
   describe 'Go to article_bs page' do
     it 'show article' do
-      @browser.link(text: 'Article').click
+      visit ArticlePage do |page|
+        page.click_article_tab
 
-      @browser.h4.text.must_equal 'Contents'
+        page.header_temp.must_equal 'Contents'
+      end
     end
   end
 end
