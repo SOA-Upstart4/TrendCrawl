@@ -107,20 +107,41 @@ nav.navbar.navbar-inverse.visible-xs
             button.btn.btn-default type="button"
               span.glyphicon.glyphicon-search
         br/
-        li.active
-          a href="#section1"
-            span.glyphicon.glyphicon-unchecked
-            |   E-commerce
-        li
-          a href="#section2"
-            span.glyphicon.glyphicon-unchecked
-            |   Facebook
-        li
-          a href="#section3"
-            span.glyphicon.glyphicon-unchecked
-            |   Paypal
-        li
-          a href="#section3"
-            span.glyphicon.glyphicon-unchecked
-            |   eBay
+        #accordion.panel-group
+          .panel.panel-default
+            .panel-heading
+              li.active
+                a href="#collapse1" data-parent="#accordion" data-toggle="collapse"
+                  span.glyphicon.glyphicon-unchecked
+                  |   E-commerce
+            #collapse1.panel-collapse.collapse.in
+              .panel-body
+                |    test 1
+          .panel.panel-default              
+            .panel-heading
+              li
+                a href="#collapse2" data-parent="#accordion" data-toggle="collapse"
+                  span.glyphicon.glyphicon-unchecked
+                  |   Facebook
+            #collapse2.panel-collapse.collapse
+              .panel-body
+                |    test 2  
+          .panel.panel-default                              
+            .panel-heading
+              li
+                a href="#collapse3" data-parent="#accordion" data-toggle="collapse"
+                  span.glyphicon.glyphicon-unchecked
+                  |   Paypal
+            #collapse3.panel-collapse.collapse
+              .panel-body
+                |    test 3     
+          .panel.panel-default                            
+            .panel-heading
+              li
+                a href="#collapse4" data-parent="#accordion" data-toggle="collapse"
+                  span.glyphicon.glyphicon-unchecked
+                  |   eBay
+            #collapse4.panel-collapse.collapse
+              .panel-body
+                |    test 4                 
     br/
