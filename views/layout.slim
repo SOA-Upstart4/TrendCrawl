@@ -5,9 +5,30 @@ html lang="en"
     title Explore with FirstGlance
     meta charset="utf-8" /
     meta content="width=device-width, initial-scale=1" name="viewport" /
+    link rel="shortcut icon" href="/favicon.ico" /
     link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" /
     script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" 
     script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
+    script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
+    script src="http://code.highcharts.com/highcharts.js"
+    script src="//code.highcharts.com/highcharts.js"
+    script src="/chartkick.js"
+
+    css:
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {height: 550px}  
+
+      /* Set gray background color and 100% height */
+      .sidenav {
+        background-color: #f0f0f0;
+        height: 100%;
+      }  
+
+      /* On small screens, set height to 'auto' for the grid */
+      @media screen and (max-width: 767px) {
+        .row.content {height: auto;}
+      }
+      
   body
     section
       == styled_flash

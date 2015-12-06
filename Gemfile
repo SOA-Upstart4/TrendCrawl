@@ -15,6 +15,8 @@ gem 'activesupport'
 gem 'sinatra-flash'
 gem 'slim'
 gem 'tilt'
+gem 'chartkick'
+gem 'groupdate'
 
 group :development do
   gem 'tux'
@@ -30,4 +32,5 @@ group :test do
 
   gem 'watir-webdriver'
   gem 'headless'
+  gem 'page-object'
 end
