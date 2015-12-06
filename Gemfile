@@ -15,6 +15,8 @@ gem 'activesupport'
 gem 'sinatra-flash'
 gem 'slim'
 gem 'tilt'
+gem 'chartkick'
+gem 'groupdate'
 
 group :development do
   gem 'tux'

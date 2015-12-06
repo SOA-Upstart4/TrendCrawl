@@ -17,6 +17,7 @@ GEM
     backports (3.6.7)
     bond (0.5.1)
     builder (3.2.2)
+    chartkick (1.4.1)
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     coercible (1.0.0)
@@ -30,6 +31,8 @@ GEM
     faker (1.6.1)
       i18n (~> 0.5)
     ffi (1.9.10)
+    groupdate (2.5.0)
+      activesupport (>= 3)
     headless (2.2.0)
     httparty (0.13.7)
       json (~> 1.8)
@@ -121,6 +124,8 @@ PLATFORMS
 DEPENDENCIES
   activemodel
   activesupport
+  chartkick
+  groupdate
   headless
   httparty
   json
