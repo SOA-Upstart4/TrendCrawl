@@ -2,6 +2,8 @@ require_relative 'spec_helper'
 require 'json'
 
 describe 'Trend Crawl' do
+  include PageObject::PageFactory
+
   before do
     unless @browser
       @headless = Headless.new
@@ -11,38 +13,36 @@ describe 'Trend Crawl' do
   end
 
   describe 'Go to home page' do
-    it 'finds the title' do
-      @browser.title.must_equal 'Explore with FirstGlance'
-    end
-
-    it 'finds the header' do
-      @browser.h1.text.must_equal 'Explore with FirstGlance'
-    end
-
-    it 'has three tabs' do
-      @browser.li(id: 'function_tab1').text.must_equal 'Trend'
-      @browser.li(id: 'function_tab2').text.must_equal 'Article'
-      @browser.li(id: 'function_tab3').text.must_equal 'About'
-    end
-
-    it 'finds keywords area' do
-      @browser.h2.text.must_equal 'Keywords'
+    it 'finds title & header & three tabs & keywords area' do
+      visit HomePage do |page|
+        page.title.must_equal 'Explore with FirstGlance'
+        page.execute_script("return (typeof arguments[0].naturalWidth!=\"undefined\" && arguments[0].naturalWidth>0)", page.header_img_element)
+        page.trend_link_element.exists?.must_equal true
+        page.article_link_element.exists?.must_equal true
+        page.about_link_element.exists?.must_equal true
+        page.keywords_header.must_equal 'Keywords'
+        page.keywords_div_element.exists?.must_equal true
+      end
     end
   end
 
   describe 'Go to trend_bs page' do
-    it 'show dashboard' do
-      @browser.link(text: 'Trend').click
+    it 'show plot' do
+      visit TrendPage do |page|
+        page.click_trend_tab
 
-      @browser.h4.text.must_equal 'Dashboard'
+        page.plot_element.present?.must_equal true
+      end
     end
   end
 
   describe 'Go to article_bs page' do
     it 'show article' do
-      @browser.link(text: 'Article').click
+      visit ArticlePage do |page|
+        page.click_article_tab
 
-      @browser.h4.text.must_equal 'Contents'
+        page.header_temp.must_equal 'Contents'
+      end
     end
   end
 end

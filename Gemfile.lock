@@ -17,14 +17,22 @@ GEM
     backports (3.6.7)
     bond (0.5.1)
     builder (3.2.2)
+    chartkick (1.4.1)
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    data_magic (0.22)
+      faker (>= 1.1.2)
+      yml_reader (>= 0.6)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     equalizer (0.0.11)
+    faker (1.6.1)
+      i18n (~> 0.5)
     ffi (1.9.10)
+    groupdate (2.5.0)
+      activesupport (>= 3)
     headless (2.2.0)
     httparty (0.13.7)
       json (~> 1.8)
@@ -40,6 +48,12 @@ GEM
       minitest (~> 5.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
+    page-object (1.1.0)
+      page_navigation (>= 0.9)
+      selenium-webdriver (>= 2.44.0)
+      watir-webdriver (>= 0.6.11)
+    page_navigation (0.9)
+      data_magic (>= 0.14)
     puma (2.15.3)
     rack (1.6.4)
     rack-flash3 (1.0.5)
@@ -102,6 +116,7 @@ GEM
     watir-webdriver (0.9.1)
       selenium-webdriver (>= 2.46.2)
     websocket (1.2.2)
+    yml_reader (0.6)
 
 PLATFORMS
   ruby
@@ -109,11 +124,14 @@ PLATFORMS
 DEPENDENCIES
   activemodel
   activesupport
+  chartkick
+  groupdate
   headless
   httparty
   json
   minitest
   minitest-rg
+  page-object
   puma
   rack
   rack-flash3
