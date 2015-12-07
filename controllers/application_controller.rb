@@ -28,6 +28,21 @@ class ApplicationController < Sinatra::Base
     slim :trend_bs
   end
 
+  get_article_with_filter = lambda do
+    @tags = params['tags'] if params.has_key? 'tags'
+    @title = params['title'] if params.has_key? 'title'
+    @author = params['author'] if params.has_key? 'author'
+    @article = find_articles(@tags, @title, @author)
+
+    if @article.nil?
+      flash[:notice] = 'No matched articles.'
+      redirect '/trend'
+      return nil
+    end
+
+    slim :trend_bs
+  end
+
   get_feed = lambda do
     @ranktype = params[:ranktype]
     if @ranktype
@@ -111,7 +126,7 @@ class ApplicationController < Sinatra::Base
   # Web App Views Routes
   get '/?', &get_root
   get '/feed/?', &get_feed
-  get '/article/filter?', &get_article_by_viewid
+  get '/article/filter?', &get_article_with_filter
   get '/feed/:ranktype/?', &get_feed_ranktype
   get '/trend/?', &get_trend
   post '/trend/?', &post_trend
