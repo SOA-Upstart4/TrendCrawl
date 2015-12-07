@@ -28,6 +28,7 @@ class ApplicationController < Sinatra::Base
     slim :trend
   end
 
+  # get_article_with_filter needs modification! not available yet!
   get_article_with_filter = lambda do
     @tags = params['tags'] if params.has_key? 'tags'
     @title = params['title'] if params.has_key? 'title'
@@ -44,16 +45,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get_article_by_viewid = lambda do
-    options = { headers: { 'Content-Type' => 'application/json' } }
-    @article = HTTParty.get(api_url("/article/view/id/#{params[:viewid]}"), options)
+    @viewid = params['viewid']    
+    # @viewid = '38036'  #testing
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
+    @article = HTTParty.get(api_url('article'), options)
+
     if @article.code != 200
       flash[:notice] = 'Getteing article error.'
-      redirect '/article'
-      return nil
-    end
-
-    if @article.nil?
-      flash[:notice] = 'No article found.'
       redirect '/article'
       return nil
     end

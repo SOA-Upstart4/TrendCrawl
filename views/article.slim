@@ -48,8 +48,13 @@ nav.navbar.navbar-inverse.visible-xs
           a href="#"  About
       br/
       .well
-        h4 Contents
-        p We will show articles here..
+        - unless @article['date'].nil?
+          h3 =@article['title']
+          h5 ="撰文者：#{@article['author']}　　發表日期：#{@article['date']}"
+          img src="#{@article['imgs'][0]}" width="90%"
+          p =@article['content']
+        - else
+          h3 Sorry! We can't find the article.
     .col-sm-3.sidenav.hidden-xs
       h2 Keywords
       ul.nav.nav-pills.nav-stacked
