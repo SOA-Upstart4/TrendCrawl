@@ -24,11 +24,11 @@ class ApplicationController < Sinatra::Base
   end
 
   # Web functions
-  app_get_root = lambda do
+  get_root = lambda do
     slim :trend_bs
   end
 
-  app_get_feed = lambda do
+  get_feed = lambda do
     @ranktype = params[:ranktype]
     if @ranktype
       redirect "/feed/#{@ranktype}"
@@ -39,7 +39,7 @@ class ApplicationController < Sinatra::Base
     slim :article_bs
   end
 
-  app_get_feed_ranktype = lambda do
+  get_feed_ranktype = lambda do
     # TODO: Implement the function with Web APIs
     options = { headers: { 'Content-Type' => 'application/json' } }
     @rank = HTTParty.get(api_url("#{params[:ranktype]}"), options)
@@ -60,12 +60,12 @@ class ApplicationController < Sinatra::Base
     slim :article_bs
   end
 
-  app_get_trend = lambda do
+  get_trend = lambda do
     @action = :create
     slim :trend
   end
 
-  app_post_trend = lambda do
+  post_trend = lambda do
     form = TrendForm.new(params)
 
     error_send(back, "Following fields are required: #{form.error_fields}") \
@@ -84,7 +84,7 @@ class ApplicationController < Sinatra::Base
     redirect "/trend/#{results.id}"
   end
 
-  app_get_trend_id = lambda do
+  get_trend_id = lambda do
     if session[:action] == :create
       @results = JSON.parse(session[:results])
     else
@@ -102,18 +102,19 @@ class ApplicationController < Sinatra::Base
     slim :trend
   end
 
-  app_delete_trend_id = lambda do
+  delete_trend_id = lambda do
     HTTParty.delete api_url("trend/#{params[:id]}")
     flash[:notice] = 'record of trend deleted'
     redirect '/trend'
   end
 
   # Web App Views Routes
-  get '/?', &app_get_root
-  get '/feed/?', &app_get_feed
-  get '/feed/:ranktype/?', &app_get_feed_ranktype
-  get '/trend/?', &app_get_trend
-  post '/trend/?', &app_post_trend
-  get '/trend/:id/?', &app_get_trend_id
-  delete '/trend/:id/?', &app_delete_trend_id
+  get '/?', &get_root
+  get '/feed/?', &get_feed
+  get '/article/filter?', &get_article_by_viewid
+  get '/feed/:ranktype/?', &get_feed_ranktype
+  get '/trend/?', &get_trend
+  post '/trend/?', &post_trend
+  get '/trend/:id/?', &get_trend_id
+  delete '/trend/:id/?', &delete_trend_id
 end
