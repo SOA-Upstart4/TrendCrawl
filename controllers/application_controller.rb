@@ -28,8 +28,6 @@ class ApplicationController < Sinatra::Base
     slim :trend
   end
 
-  # get_article_with_filter needs modification! not available yet!
-  # currently testing on tags only. (to be added: title, author)
   get_article_with_filter = lambda do
     @tags = params['tags']
     @author = params['author']
