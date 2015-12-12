@@ -29,11 +29,15 @@ class ApplicationController < Sinatra::Base
   end
 
   # get_article_with_filter needs modification! not available yet!
+  # currently testing on tags only. (to be added: title, author)
   get_article_with_filter = lambda do
-    @tags = params['tags'] if params.has_key? 'tags'
-    @title = params['title'] if params.has_key? 'title'
-    @author = params['author'] if params.has_key? 'author'
-    @article = find_articles(@tags, @title, @author)
+    @tags = params['tags']
+    @author = params['author']
+    @title = params['title']
+    # @tags = 'Facebook'  #testing
+
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags, :author => @author, :title => @title } }
+    @article = HTTParty.get(api_url('article/filter'), options)
 
     if @article.nil?
       flash[:notice] = 'No matched articles.'
