@@ -1,100 +1,21 @@
-doctype html
+.page-header
+  img src="/header.jpg" width="40%" id="header"
+ul.nav.nav-tabs
+  li id="function_tab1"
+    a href="/"
+      span.glyphicon.glyphicon-signal
+      |  Trend
+  li.active id="function_tab2"
+    a href="/article"  Article
+  li id="function_tab3"
+    a href="#"  About
+br/
 
-/! Collapsible Navbar for small screens
-nav.navbar.navbar-inverse.visible-xs
-  .container-fluid
-    .navbar-header
-      button.navbar-toggle data-target="#myNavbar" data-toggle="collapse" type="button"
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand href="#"  Keywords
-    #myNavbar.collapse.navbar-collapse
-      .input-group
-        input.form-control placeholder=("Your Keyword") type="text" /
-        span.input-group-btn
-          button.btn.btn-default type="button"
-            span.glyphicon.glyphicon-search
-      ul.nav.navbar-nav
-        li.active
-          a href="#section1"
-            span.glyphicon.glyphicon-unchecked
-            |   E-commerce
-        li
-          a href="#section2"
-            span.glyphicon.glyphicon-unchecked
-            |   Facebook
-        li
-          a href="#section3"
-            span.glyphicon.glyphicon-unchecked
-            |   Paypal
-        li
-          a href="#section3"
-            span.glyphicon.glyphicon-unchecked
-            |   eBay
-.container-fluid
-  .row.content
-    .col-sm-9
-      .page-header
-        img src="/header.jpg" width="40%" id="header"
-      ul.nav.nav-tabs
-        li id="function_tab1"
-          a href="/"
-            span.glyphicon.glyphicon-signal
-            |  Trend
-        li.active id="function_tab2"
-          a href="/feed"  Article
-        li id="function_tab3"
-          a href="#"  About
-      br/
-      .well
-        - unless @article['date'].nil?
-          h3 =@article['title']
-          h5 ="撰文者：#{@article['author']}　　發表日期：#{@article['date']}"
-          img src="#{@article['imgs'][0]}" width="90%"
-          p ==@article['content'].gsub("\r", '<br>').gsub("\n", '<br>')
-        - else
-          h3 Sorry! We can't find the article.
-    .col-sm-3.sidenav.hidden-xs
-      h2 Keywords
-      ul.nav.nav-pills.nav-stacked
-        .input-group
-          input.form-control placeholder=("Your Keyword") type="text" /
-          span.input-group-btn
-            button.btn.btn-default type="button"
-              span.glyphicon.glyphicon-search
-        br/
-        / The following array is just a placeholder for now.
-        - hot_keywords = ['Facebook', 'commerce', 'Paypal', 'eBay']
-        #accordion.panel-group
-          .panel.panel-default
-            .panel-heading
-              li.active
-                a href="#collapse0" data-parent="#accordion" data-toggle="collapse"
-                  span.glyphicon.glyphicon-unchecked
-                  |    #{hot_keywords[0]}
-            #collapse0.panel-collapse.collapse.in
-              .panel-body
-                - @list = right_nav(hot_keywords[0])
-                - @list.each do |title, link|
-                  span.glyphicon.glyphicon-triangle-right
-                  | <a href=#{link} target="_self">   #{title}</a>
-                  p
-          - for i in 1..3
-            - collapse_no = "collapse#{i}"
-            .panel.panel-default              
-              .panel-heading
-                li
-                  <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}">
-                    span.glyphicon.glyphicon-unchecked
-                    |    #{hot_keywords[i]}
-                  </a>
-              <div id=#{collapse_no} class="panel-collapse collapse">
-                .panel-body
-                  - @list = right_nav(hot_keywords[i])
-                  - @list.each do |title, link|
-                    span.glyphicon.glyphicon-triangle-right
-                    | <a href=#{link} target="_self">   #{title}</a>
-                    p 
-              </div>
-    br/
+.well
+  - unless @article['date'].nil?
+    h3 =@article['title']
+    h5 ="撰文者：#{@article['author']}　　發表日期：#{@article['date']}"
+    img src="#{@article['imgs'][0]}" width="90%"
+    p ==@article['content'].gsub("\r", '<br>').gsub("\n", '<br>')
+  - else
+    h3 Sorry! We can't find the article.
