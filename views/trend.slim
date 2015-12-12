@@ -43,7 +43,7 @@ nav.navbar.navbar-inverse.visible-xs
             span.glyphicon.glyphicon-signal
             |  Trend
         li id="function_tab2"
-          a href="/feed"  Article
+          a href="/article"  Article
         li id="function_tab3"
           a href="#"  About
       br/
@@ -107,41 +107,37 @@ nav.navbar.navbar-inverse.visible-xs
             button.btn.btn-default type="button"
               span.glyphicon.glyphicon-search
         br/
+        / The following array is just a placeholder for now.
+        - hot_keywords = ['Facebook', 'commerce', 'Paypal', 'eBay']
         #accordion.panel-group
           .panel.panel-default
             .panel-heading
               li.active
-                a href="#collapse1" data-parent="#accordion" data-toggle="collapse"
+                a href="#collapse0" data-parent="#accordion" data-toggle="collapse"
                   span.glyphicon.glyphicon-unchecked
-                  |   E-commerce
-            #collapse1.panel-collapse.collapse.in
+                  |    #{hot_keywords[0]}
+            #collapse0.panel-collapse.collapse.in
               .panel-body
-                |    test 1
-          .panel.panel-default              
-            .panel-heading
-              li
-                a href="#collapse2" data-parent="#accordion" data-toggle="collapse"
-                  span.glyphicon.glyphicon-unchecked
-                  |   Facebook
-            #collapse2.panel-collapse.collapse
-              .panel-body
-                |    test 2  
-          .panel.panel-default                              
-            .panel-heading
-              li
-                a href="#collapse3" data-parent="#accordion" data-toggle="collapse"
-                  span.glyphicon.glyphicon-unchecked
-                  |   Paypal
-            #collapse3.panel-collapse.collapse
-              .panel-body
-                |    test 3     
-          .panel.panel-default                            
-            .panel-heading
-              li
-                a href="#collapse4" data-parent="#accordion" data-toggle="collapse"
-                  span.glyphicon.glyphicon-unchecked
-                  |   eBay
-            #collapse4.panel-collapse.collapse
-              .panel-body
-                |    test 4                 
+                - @list = right_nav(hot_keywords[0])
+                - @list.each do |title, link|
+                  span.glyphicon.glyphicon-triangle-right
+                  | <a href=#{link} target="_self">   #{title}</a>
+                  p
+          - for i in 1..3
+            - collapse_no = "collapse#{i}"
+            .panel.panel-default              
+              .panel-heading
+                li
+                  <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}">
+                    span.glyphicon.glyphicon-unchecked
+                    |    #{hot_keywords[i]}
+                  </a>
+              <div id=#{collapse_no} class="panel-collapse collapse">
+                .panel-body
+                  - @list = right_nav(hot_keywords[i])
+                  - @list.each do |title, link|
+                    span.glyphicon.glyphicon-triangle-right
+                    | <a href=#{link} target="_self">   #{title}</a>
+                    p 
+              </div>
     br/

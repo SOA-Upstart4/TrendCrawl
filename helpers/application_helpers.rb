@@ -20,4 +20,17 @@ module ApplicationHelpers
     redirect url
     halt 303        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
   end
+
+  def right_nav(tag)
+    @tags = tag
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
+    @open_url = HTTParty.get(api_url('article/filter'), options)
+    @list = {}
+    for i in 0..4
+      viewid = @open_url[i]['link'][-5..-1]
+      article_url = '/article?viewid=' + viewid
+      @list[@open_url[i]['title']] = article_url
+    end
+    @list
+  end
 end
