@@ -12,7 +12,7 @@ ul.nav.nav-pills.nav-stacked
     .panel.panel-default
       .panel-heading
         li.active
-          a href="#collapse0" data-parent="#accordion" data-toggle="collapse"
+          a href="#collapse0" data-parent="#accordion" data-toggle="collapse" id="keyword0"
             span.glyphicon.glyphicon-unchecked
             |    #{hot_keywords[0]}
       #collapse0.panel-collapse.collapse.in
@@ -24,10 +24,10 @@ ul.nav.nav-pills.nav-stacked
             p
     - for i in 1..3
       - collapse_no = "collapse#{i}"
-      .panel.panel-default              
+      .panel.panel-default
         .panel-heading
           li
-            <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}">
+            <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}" id="keyword#{i}">
               span.glyphicon.glyphicon-unchecked
               |    #{hot_keywords[i]}
             </a>
@@ -37,6 +37,5 @@ ul.nav.nav-pills.nav-stacked
             - @list.each do |title, link|
               span.glyphicon.glyphicon-triangle-right
               | <a href=#{link} target="_self">   #{title}</a>
-              p 
+              p
         </div>
-      
