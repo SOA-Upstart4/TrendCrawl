@@ -21,7 +21,8 @@ module ApplicationHelpers
     halt 303        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
   end
 
-  def right_nav(tag) # Show the according links in each keyword area
+  # Show the according links in each keyword area
+  def right_nav(tag)
     @tags = tag
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
     @open_url = HTTParty.get(api_url('article/filter'), options)
@@ -52,11 +53,10 @@ module ApplicationHelpers
 
     unless @open_url.length == 0
       session[:hot_keywords] << keyword 
-      redirect '/'
     else
       flash[:notice] = 'No matched articles. We cannot add this keyword.'
-      redirect '/'
     end
+    redirect '/'
   end
 
   def del_keyword(keyword)
