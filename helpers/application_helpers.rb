@@ -33,4 +33,14 @@ module ApplicationHelpers
     end
     @list
   end
+
+  def add_keyword(keyword)
+    session[:hot_keywords] << keyword 
+    redirect '/'
+  end
+
+  def del_keyword(keyword)
+    session[:hot_keywords].delete(keyword)
+    redirect '/'
+  end
 end
