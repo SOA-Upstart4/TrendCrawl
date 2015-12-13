@@ -21,22 +21,42 @@ module ApplicationHelpers
     halt 303        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
   end
 
-  def right_nav(tag)
+  def right_nav(tag) # Show the according links in each keyword area
     @tags = tag
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
     @open_url = HTTParty.get(api_url('article/filter'), options)
     @list = {}
-    for i in 0..4
-      viewid = @open_url[i]['link'][-5..-1]
+
+    @n = link_num(5) - 1
+
+    for i in 0..@n
+      viewid = @open_url[i]['link'][-5..-1] # Extract view id from article link
       article_url = '/article?viewid=' + viewid
       @list[@open_url[i]['title']] = article_url
     end
     @list
   end
 
+  # Decide the amount of links to show.
+  def link_num(num)
+    unless (@open_url.length) < num
+      @link_num = num
+    else
+      @link_num = @open_url.length
+    end
+  end
+
   def add_keyword(keyword)
-    session[:hot_keywords] << keyword 
-    redirect '/'
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => keyword } }
+    @open_url = HTTParty.get(api_url('article/filter'), options)
+
+    unless @open_url.length == 0
+      session[:hot_keywords] << keyword 
+      redirect '/'
+    else
+      flash[:notice] = 'No matched articles. We cannot add this keyword.'
+      redirect '/'
+    end
   end
 
   def del_keyword(keyword)
