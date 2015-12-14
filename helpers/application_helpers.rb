@@ -51,11 +51,16 @@ module ApplicationHelpers
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => keyword } }
     @open_url = HTTParty.get(api_url('article/filter'), options)
 
-    unless @open_url.length == 0
-      session[:hot_keywords] << keyword 
+    if session[:hot_keywords].include? keyword
+      flash[:notice] = 'Keyword already exists.'
     else
-      flash[:notice] = 'No matched articles. We cannot add this keyword.'
+      unless @open_url.length == 0
+        session[:hot_keywords] << keyword 
+      else
+        flash[:notice] = 'No matched articles. We cannot add this keyword.'
+      end
     end
+
     redirect '/'
   end
 
