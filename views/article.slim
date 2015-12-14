@@ -15,7 +15,10 @@ br/
   - unless @article['date'].nil?
     h3 =@article['title']
     h5 ="撰文者：#{@article['author']}　　發表日期：#{@article['date']}"
+    h5
+      a href="#{@article['link']}" target="_blank" Original Article
     img src="#{@article['imgs'][0]}" width="90%"
     p ==@article['content'].gsub("\r", '<br>').gsub("\n", '<br>')
+
   - else
     h3 Sorry! We can't find the article.
