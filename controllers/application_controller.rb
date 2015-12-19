@@ -32,7 +32,7 @@ class ApplicationController < Sinatra::Base
     @deleted_word = params['deleted_word']
 
     add_keyword(@added_word) if @added_word 
-    delete_keyword(@deleted_word) if @deleted_word
+    del_keyword(@deleted_word) if @deleted_word
 
     slim :trend
   end

@@ -15,6 +15,12 @@ ul.nav.nav-pills.nav-stacked
           a href="#collapse0" data-parent="#accordion" data-toggle="collapse"
             span.glyphicon.glyphicon-unchecked
             |    #{hot_keywords[0]}
+          div style="float: right"
+            form action="/" method="GET"
+              .input-group
+                <input class="form-control" type="hidden" name="deleted_word" value="#{hot_keywords[0]">
+                button.btn.btn-link type="submit" style="padding: 1px"
+                  span.glyphicon.glyphicon-remove
       #collapse0.panel-collapse.collapse.in
         .panel-body
           - @list = right_nav(hot_keywords[0])
@@ -31,6 +37,12 @@ ul.nav.nav-pills.nav-stacked
               span.glyphicon.glyphicon-unchecked
               |    #{hot_keywords[i]}
             </a>
+            div style="float: right"
+              form action="/" method="GET"
+                .input-group
+                  <input class="form-control" type="hidden" name="deleted_word" value="#{hot_keywords[i]}">
+                  button.btn.btn-link type="submit" style="padding: 1px"
+                    span.glyphicon.glyphicon-remove
         <div id=#{collapse_no} class="panel-collapse collapse">
           .panel-body
             - @list = right_nav(hot_keywords[i])
