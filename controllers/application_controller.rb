@@ -31,32 +31,35 @@ class ApplicationController < Sinatra::Base
     @added_word = params['added_word']
     @deleted_word = params['deleted_word']
 
-    add_keyword(@added_word) if @added_word 
+    add_keyword(@added_word) if @added_word
     delete_keyword(@deleted_word) if @deleted_word
 
     slim :trend
   end
-
+  # get '/article/filter?'
   get_article_with_filter = lambda do
+    session[:hot_keywords] ||= ['Facebook', 'commerce', 'Paypal', 'eBay']
     @tags = params['tags']
     @author = params['author']
     @title = params['title']
-    # @tags = 'Facebook'  #testing
+    # @tags = 'facebook'  #testing
 
-    options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags, :author => @author, :title => @title } }
-    @article = HTTParty.get(api_url('article/filter'), options)
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
+    @article = HTTParty.get(api_url('article/filter?'), options)
 
     if @article.nil?
       flash[:notice] = 'No matched articles.'
       redirect '/trend'
       return nil
+    else
+      @data = count_article(@tags, @article)
     end
 
     slim :trend
   end
 
   get_article_by_viewid = lambda do
-    @viewid = params['viewid']    
+    @viewid = params['viewid']
     # @viewid = '38036'  #testing
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
     @article = HTTParty.get(api_url('article'), options)
