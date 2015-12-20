@@ -42,7 +42,7 @@ class ApplicationController < Sinatra::Base
     @tags = params['tags']
     @author = params['author']
     @title = params['title']
-    # @tags = 'facebook'  #testing
+    @tags = session[:hot_keywords][0]  #testing
 
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
     @article = HTTParty.get(api_url('article/filter?'), options)
