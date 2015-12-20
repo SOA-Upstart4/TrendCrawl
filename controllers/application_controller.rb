@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
   # Web functions
   get_root = lambda do
-    session[:hot_keywords] ||= ['Facebook', 'commerce', 'Paypal', 'eBay']
+    session[:keywords] ||= ['Facebook', 'commerce', 'Paypal', 'eBay']
     # Keywords should change later
 
     @added_word = params['added_word']
