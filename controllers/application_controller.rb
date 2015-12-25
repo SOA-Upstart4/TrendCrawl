@@ -25,14 +25,14 @@ class ApplicationController < Sinatra::Base
 
   # Web functions
   get_root = lambda do
-    session[:hot_keywords] ||= ['Facebook', 'commerce', 'Paypal', 'eBay']
+    session[:keywords] ||= ['Facebook', 'commerce', 'Paypal', 'eBay']
     # Keywords should change later
 
     @added_word = params['added_word']
     @deleted_word = params['deleted_word']
 
     add_keyword(@added_word) if @added_word
-    delete_keyword(@deleted_word) if @deleted_word
+    del_keyword(@deleted_word) if @deleted_word
 
     slim :trend
   end

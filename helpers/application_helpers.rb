@@ -51,11 +51,11 @@ module ApplicationHelpers
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => keyword } }
     @open_url = HTTParty.get(api_url('article/filter'), options)
 
-    if session[:hot_keywords].include? keyword
+    if session[:keywords].include? keyword
       flash[:notice] = 'Keyword already exists.'
     else
       unless @open_url.length == 0
-        session[:hot_keywords] << keyword
+        session[:keywords] << keyword 
       else
         flash[:notice] = 'No matched articles. We cannot add this keyword.'
       end
@@ -65,7 +65,7 @@ module ApplicationHelpers
   end
 
   def del_keyword(keyword)
-    session[:hot_keywords].delete(keyword)
+    session[:keywords].delete(keyword)
     redirect '/'
   end
 
