@@ -12,12 +12,18 @@ ul.nav.nav-tabs
 br/
 
 div id="count" style ="display:none"
-  |#{@data}
+  |#{@data_count.to_json}
+
 .well
   div id="plot" style="width:100%; height:300px;"
     javascript:
         $(function () {
             var trend = JSON.parse(document.getElementById("count").innerHTML);
+            var series = []
+            for(var i=0; i<trend.length; i++){
+                series[i] = { name: trend[i].keyword, data: trend[i].data};
+            }
+
             $('#plot').highcharts({
                 title: {
                     text: 'Trend for Your Keyword',
@@ -50,9 +56,6 @@ div id="count" style ="display:none"
                     verticalAlign: 'middle',
                     borderWidth: 0
                 },
-                series : [{
-                    name: trend[0].keyword,
-                    data: trend[1].data
-                }]
+                series : series
             });
         });
