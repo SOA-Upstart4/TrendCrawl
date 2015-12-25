@@ -26,22 +26,12 @@ describe 'Trend Crawl' do
     end
   end
 
-  describe 'Go to trend_bs page' do
-    it 'show plot' do
-      visit TrendPage do |page|
-        page.click_trend_tab
-
-        page.plot_element.present?.must_equal true
-      end
-    end
-  end
-
   describe 'Go to article_bs page' do
-    it 'show article' do
+    it 'should show default message' do
       visit ArticlePage do |page|
         page.click_article_tab
 
-        page.header_temp.must_equal 'Contents'
+        page.default_msg.must_equal "Sorry! We can't find the article."
       end
     end
   end
