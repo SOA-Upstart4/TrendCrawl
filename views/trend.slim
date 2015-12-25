@@ -11,6 +11,25 @@ ul.nav.nav-tabs
     a href="#"  About
 br/
 
+/ Date slider
+div id="range" style="width:100%; height:150px;"
+  javascript:
+    $(function () {
+        $("#range").ionRangeSlider({
+          min: +moment().subtract(2, "years").format("X"),
+          max: +moment().format("X"),
+          from: +moment().subtract(6, "months").format("X"),
+          to: +moment().format("X"),
+          type: "double",
+          prettify: function (num) {
+              return moment(num, "X").format("YYYY/MM");
+          }
+        });
+    });
+  input#range name="range" type="text" value="" /
+br /
+
+/ Trend Visualization
 .well
   div id="plot" style="width:100%; height:300px;"
     javascript:
