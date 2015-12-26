@@ -55,7 +55,7 @@ module ApplicationHelpers
       flash[:notice] = 'Keyword already exists.'
     else
       unless @open_url.length == 0
-        session[:keywords] << keyword 
+        session[:keywords] << keyword
       else
         flash[:notice] = 'No matched articles. We cannot add this keyword.'
       end
@@ -66,6 +66,21 @@ module ApplicationHelpers
 
   def del_keyword(keyword)
     session[:keywords].delete(keyword)
+    # session[:data].delete()
     redirect '/'
+  end
+
+  def count_article(tag, articles)
+    @keyword = tag
+    @article = articles
+    @count_data = {
+      "keyword" => "#{@keyword}",
+      "data" => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+    for i in 0...@article.length
+      article_belong_which_month = Time.parse(@article[i]['date']).strftime('%m').to_i
+      @count_data['data'][article_belong_which_month - 1] += 1
+    end
+    @count_data
   end
 end
