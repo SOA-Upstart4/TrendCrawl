@@ -35,6 +35,7 @@ class ApplicationController < Sinatra::Base
 
     ## show trend line
     @data_count = []
+    @categories = set_xaxis
     @tags = params['tags']
     @author = params['author']
     @title = params['title']
