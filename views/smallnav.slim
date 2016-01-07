@@ -7,7 +7,7 @@ nav.navbar.navbar-inverse.visible-xs
         span.icon-bar
       a.navbar-brand href="#"  Keywords
     / The following array is just a placeholder for now.
-    - hot_keywords = ['Facebook', 'commerce', 'Paypal', 'eBay']
+    - keywords = session[:keywords]
     #myNavbar.collapse.navbar-collapse
       .input-group
         input.form-control placeholder=("Your Keyword") type="text" /
@@ -18,11 +18,11 @@ nav.navbar.navbar-inverse.visible-xs
         li.active
           a href="#section0"
             span.glyphicon.glyphicon-unchecked
-            |   #{hot_keywords[0]}
-        - for i in 1..3
+            |   #{keywords[0]}
+        - for i in 1..keywords.length-1
           - collapse_no = "collapse#{i}"
           li
             <a href="##{collapse_no}">
               span.glyphicon.glyphicon-unchecked
-              |   #{hot_keywords[i]}
+              |   #{keywords[i]}
             </a>
