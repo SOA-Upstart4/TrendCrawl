@@ -23,7 +23,7 @@ describe 'Trend Crawl' do
         page.keywords_header.must_equal 'Keywords'
         page.keywords_div_element.exists?.must_equal true
         page.plot_div_element.exists?.must_equal true
-        @browser.ul(id: 'keyword_list').lis.length.must_equal 4
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 6
       end
     end
 
@@ -31,7 +31,7 @@ describe 'Trend Crawl' do
       visit HomePage do |page|
         page.add_keyword('EC')
 
-        @browser.ul(id: 'keyword_list').lis.length.must_equal 5
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 7
       end
     end
 
@@ -39,7 +39,7 @@ describe 'Trend Crawl' do
       visit HomePage do |page|
         page.delete_keword
 
-        @browser.ul(id: 'keyword_list').lis.length.must_equal 3
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 5
       end
     end
   end
