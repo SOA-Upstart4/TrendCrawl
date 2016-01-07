@@ -1,10 +1,10 @@
 h2 Keywords
-ul.nav.nav-pills.nav-stacked
+ul.nav.nav-pills.nav-stacked id="keyword_list"
   form action="/" method="GET"
     .input-group
       input.form-control placeholder=("Your Keyword") type="text" name="added_word" /
       span.input-group-btn
-        button.btn.btn-default type="submit"
+        button.btn.btn-default type="submit" id="search"
           span.glyphicon.glyphicon-search
   br/
   - keywords = session[:keywords]
@@ -18,8 +18,8 @@ ul.nav.nav-pills.nav-stacked
           div style="float: right"
             form action="/" method="GET"
               .input-group
-                <input class="form-control" type="hidden" name="deleted_word" value="#{keywords[0]">
-                button.btn.btn-link type="submit" style="padding: 1px"
+                <input class="form-control" type="hidden" name="deleted_word" value="#{keywords[0]}">
+                button.btn.btn-link type="submit" style="padding: 1px" id="delete_first"
                   span.glyphicon.glyphicon-remove
       #collapse0.panel-collapse.collapse.in
         .panel-body

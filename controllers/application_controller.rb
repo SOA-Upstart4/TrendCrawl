@@ -47,7 +47,7 @@ class ApplicationController < Sinatra::Base
 
       if @article.nil?
         flash[:notice] = 'No matched articles.'
-        redirect '/trend'
+        redirect '/'
         return nil
       else
         @data = count_article(@tags, @article)
@@ -75,6 +75,5 @@ class ApplicationController < Sinatra::Base
 
   # Web App Views Routes
   get '/?', &get_root
-  # get '/article/filter?', &get_article_with_filter
   get '/article/?', &get_article_by_viewid
 end
