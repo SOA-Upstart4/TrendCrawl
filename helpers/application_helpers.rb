@@ -1,4 +1,4 @@
-
+require 'date'
 
 module ApplicationHelpers
   API_BASE_URI = 'http://trendcrawl.herokuapp.com'
@@ -21,6 +21,34 @@ module ApplicationHelpers
     halt 303        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
   end
 
+  # Suggest the default keywords based on recent tags count
+  def default_keywords(num_keywords)
+    @lastweek = (Date.today - 7).strftime('%Y/%m/%d')
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :date_from => @lastweek } }
+    @open_url = HTTParty.get(api_url('article/filter'), options)
+    @tags_count = {}
+    @keywords = []
+    
+    for i in 0..@open_url.length - 1
+      @tag = JSON.parse(@open_url[i]['tags'])
+      for k in 0..@tag.length - 1
+        if @tags_count.has_key?(@tag[k])
+          @tags_count[@tag[k]] += 1
+        else
+          @tags_count.merge!(@tag[k] => 1)
+        end
+      end
+    end
+    
+    @tags_count = Hash[@tags_count.sort_by{ |_, v| -v }]
+    
+    for i in 0..num_keywords-1
+      @keywords << @tags_count.keys[i]
+    end
+
+    @keywords
+  end
+
   # Show the according links in each keyword area
   def right_nav(tag)
     @tags = tag
@@ -28,7 +56,7 @@ module ApplicationHelpers
     @open_url = HTTParty.get(api_url('article/filter'), options)
     @list = {}
 
-    @n = link_num(5) - 1
+    @n = link_num(5) - 1 # Set the number of links to show for each keyword
 
     for i in 0..@n
       viewid = @open_url[i]['link'][-5..-1] # Extract view id from article link
@@ -38,10 +66,10 @@ module ApplicationHelpers
     @list
   end
 
-  # Decide the amount of links to show.
-  def link_num(num)
-    unless (@open_url.length) < num
-      @link_num = num
+  # Decide the amount of links to show on the navigators.
+  def link_num(num_links)
+    unless (@open_url.length) < num_links
+      @link_num = num_links
     else
       @link_num = @open_url.length
     end
