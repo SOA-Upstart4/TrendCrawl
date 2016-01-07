@@ -22,6 +22,24 @@ describe 'Trend Crawl' do
         page.about_link_element.exists?.must_equal true
         page.keywords_header.must_equal 'Keywords'
         page.keywords_div_element.exists?.must_equal true
+        page.plot_div_element.exists?.must_equal true
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 4
+      end
+    end
+
+    it 'should add new keyword' do
+      visit HomePage do |page|
+        page.add_keyword('EC')
+
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 5
+      end
+    end
+
+    it 'should delete a keyword' do
+      visit HomePage do |page|
+        page.delete_keword
+
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 3
       end
     end
   end
