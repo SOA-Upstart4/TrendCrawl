@@ -18,4 +18,20 @@ br/
     img src="#{@article['imgs'][0]}" width="90%"
     p ==@article['content'].gsub("\r", '<br>').gsub("\n", '<br>')
   - else
-    h3 Sorry! We can't find the article.
+    .container-fluid.text-center
+      h2.margin Latest article selection
+      | Don't know where to start?  No problem! We've selected some latest articles for you.
+      p
+      hr
+      p
+      .row
+        - 6.times do
+          .col-sm-6.col-md-4
+            h4 Category
+            .thumbnail
+              img src="https://3.bp.blogspot.com/-EKhTKd8xrFM/Vo3nTtIZNtI/AAAAAAABv1M/_qpYakpKT4A/s600/086.jpg" /
+              .caption
+                h3 Title
+                p Abstract
+                p
+                  a.btn.btn-default href="#" role="button"  Read Article
