@@ -1,4 +1,5 @@
 require 'date'
+require 'active_support/time'
 
 module ApplicationHelpers
   API_BASE_URI = 'http://trendcrawl.herokuapp.com'
@@ -29,7 +30,7 @@ module ApplicationHelpers
     @open_url = HTTParty.get(api_url('article/filter'), options)
     @tags_count = {}
     @keywords = []
-    
+
     # Count keywords in a hash indescending order
     @open_url.each do |article|
       @tag = JSON.parse(article['tags'])
@@ -42,7 +43,7 @@ module ApplicationHelpers
       end
     end
     @tags_count = Hash[@tags_count.sort_by { |_, v| -v }]
-    
+
     # Extract keywords with highest fresquency
     for i in 0..num_keywords - 1
       @keywords << @tags_count.keys[i]
@@ -101,16 +102,32 @@ module ApplicationHelpers
   end
 
   def count_article(tag, articles)
+    ## get x-axis
+    @categories = set_xaxis
+    ## count data
     @keyword = tag
     @article = articles
+    process_date_hash = {}
+    @categories.each { |categorie| process_date_hash[categorie] = 0 }
+    @article.each do |article|
+      belong_which_month = Time.parse(article['date']).strftime('%Y/%m')
+      if process_date_hash[belong_which_month] != nil
+        process_date_hash[belong_which_month] += 1
+      end
+    end
+    ## return value
     @count_data = {
       "keyword" => "#{@keyword}",
-      "data" => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      "data" => process_date_hash.values
     }
-    for i in 0...@article.length
-      article_belong_which_month = Time.parse(@article[i]['date']).strftime('%m').to_i
-      @count_data['data'][article_belong_which_month - 1] += 1
+  end
+
+  ### init x-Axis
+  def set_xaxis
+    past_how_many_month = 12  # set default month
+    @categories = past_how_many_month.times.map do |i|
+      (Date.today - (11 - i).month).end_of_month.strftime('%Y/%m')
     end
-    @count_data
+    @categories
   end
 end
