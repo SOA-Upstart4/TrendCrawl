@@ -1,27 +1,83 @@
-.container
+div style="float: left; margin-top: 14px; margin-bottom: 16px"
+  img src="/header.jpg" width="40%" id="header" 
 
-  form action='/trend' method='post' id='user-form'
-    input type='checkbox' name='categories[]' value='internet' 網路
-    input type='checkbox' name='categories[]' value='tech' 科技
-    input type='checkbox' name='categories[]' value='marketing' 行銷
-    input type='checkbox' name='categories[]' value='startup' 創業
-    input type='checkbox' name='categories[]' value='people' 人物
-    input type='checkbox' name='categories[]' value='skill' 技能
-    input type='submit' value='submit' id='check-submit'
-  p
+ul.nav.nav-tabs
+  li.active id="function_tab1"
+    a href="/"
+      span.glyphicon.glyphicon-signal
+      |  Trend
+  li id="function_tab2"
+    a href="/article"  Article
+  li id="function_tab3"
+    a href="#"  About
 
-  - if @results
-    table class='center'
-      tbody
-        tr
-          td
-            th The newest feed in the category
-        - @results.each do |cat, feed|
-          tr
-            td
-              = cat
-            td
-              |<a href=#{feed['link']} target="_blank">#{feed['title']}</a>
-  form action="/trend/#{@id}" method='post' id='delete-form'
-   - if @action == :update
-    input type='submit' name='_method' value='delete' class='delete'
+/ Date slider
+.col-sm-12
+  div id="range" style="width:100%; height:150px; margin:15px"
+    javascript:
+      $(function () {
+        $("#range").ionRangeSlider({
+          min: +moment().subtract(2, "years").format("X"),
+          max: +moment().format("X"),
+          from: +moment().subtract(6, "months").format("X"),
+          to: +moment().format("X"),
+          type: "double",
+          prettify: function (num) {
+              return moment(num, "X").format("YYYY/MM");
+          }
+        });  
+      });  
+
+    input#range name="range" type="text" value="" /
+br /
+
+.col-sm-12
+  / Trend Visualization
+  div id="count" style ="display:none"
+    |#{@data_count.to_json}  
+
+  .well
+    div id="plot" style="width:100%; height:300px;"
+      javascript:
+          $(function () {
+              var trend = JSON.parse(document.getElementById("count").innerHTML);
+              var series = [];
+              for(var i=0; i<trend.length; i++){
+                  series[i] = { name: trend[i].keyword, data: trend[i].data};
+              }  
+
+              $('#plot').highcharts({
+                  title: {
+                      text: 'Trend for Your Keyword',
+                      x: -20 //center
+                  },
+                  subtitle: {
+                      text: 'Source: bnext.com.tw',
+                      x: -20
+                  },
+                  xAxis: {
+                      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                  },
+                  yAxis: {
+                      title: {
+                          text: 'Keyword Count'
+                      },
+                      plotLines: [{
+                          value: 0,
+                          width: 1,
+                          color: '#808080'
+                      }]
+                  },
+                  tooltip: {
+                      valueSuffix: 'feeds'
+                  },
+                  legend: {
+                      layout: 'vertical',
+                      align: 'right',
+                      verticalAlign: 'middle',
+                      borderWidth: 0
+                  },
+                  series : series
+              });
+          });

@@ -24,96 +24,57 @@ class ApplicationController < Sinatra::Base
   end
 
   # Web functions
-  app_get_root = lambda do
-    slim :trend_bs
-  end
+  get_root = lambda do
+    session[:keywords] ||= default_keywords(6)
 
-  app_get_feed = lambda do
-    @ranktype = params[:ranktype]
-    if @ranktype
-      redirect "/feed/#{@ranktype}"
-      return nil
-    end
+    @added_word = params['added_word']
+    @deleted_word = params['deleted_word']
 
-    # slim :feed
-    slim :article_bs
-  end
+    add_keyword(@added_word) if @added_word
+    del_keyword(@deleted_word) if @deleted_word
 
-  app_get_feed_ranktype = lambda do
-    # TODO: Implement the function with Web APIs
-    options = { headers: { 'Content-Type' => 'application/json' } }
-    @rank = HTTParty.get(api_url("#{params[:ranktype]}"), options)
-    logger.info api_url("#{params[:ranktype]}")
-    if @rank.code != 200
-      flash[:notice] = 'Getting rank error'
-      redirect '/feed'
-      return nil
-    end
+    ## show trend line
+    @data_count = []
+    @tags = params['tags']
+    @author = params['author']
+    @title = params['title']
 
-    if @rank.nil?
-      flash[:notice] = 'no feed found'
-      redirect '/feed'
-      return nil
-    end
+    for i in 0...session[:keywords].length
+      @tags = session[:keywords][i]  #testing
 
-    # slim :feed
-    slim :article_bs
-  end
+      options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
+      @article = HTTParty.get(api_url('article/filter?'), options)
 
-  app_get_trend = lambda do
-    @action = :create
-    slim :trend
-  end
-
-  app_post_trend = lambda do
-    form = TrendForm.new(params)
-
-    error_send(back, "Following fields are required: #{form.error_fields}") \
-      unless form.valid?
-
-    results = GetTrendFromAPI.new(api_url('trend'), form).call
-
-    if (results.code != 200)
-      flash[:notice] = 'Could not process your request'
-      redirect '/trend'
-      return nil
-    end
-
-    session[:results] = results.to_json
-    session[:action] = :create
-    redirect "/trend/#{results.id}"
-  end
-
-  app_get_trend_id = lambda do
-    if session[:action] == :create
-      @results = JSON.parse(session[:results])
-    else
-      options =  { headers: { 'Content-Type' => 'application/json' } }
-      @results = HTTParty.get(api_url("trend/#{params[:id]}"), options)
-      if @results.code != 200
-        flash[:notice] = 'Cannot find record'
+      if @article.nil?
+        flash[:notice] = 'No matched articles.'
         redirect '/trend'
+        return nil
+      else
+        @data = count_article(@tags, @article)
+        @data_count[i] = @data
       end
     end
 
-    @id = params[:id]
-    @action = :update
-    @categories = @results['categories']
     slim :trend
   end
 
-  app_delete_trend_id = lambda do
-    HTTParty.delete api_url("trend/#{params[:id]}")
-    flash[:notice] = 'record of trend deleted'
-    redirect '/trend'
+  get_article_by_viewid = lambda do
+    @viewid = params['viewid']
+    # @viewid = '38036'  #testing
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
+    @article = HTTParty.get(api_url('article'), options)
+
+    if @article.code != 200
+      flash[:notice] = 'Getteing article error.'
+      redirect '/article'
+      return nil
+    end
+
+    slim :article
   end
 
   # Web App Views Routes
-  get '/?', &app_get_root
-  get '/feed/?', &app_get_feed
-  get '/feed/:ranktype/?', &app_get_feed_ranktype
-  get '/trend/?', &app_get_trend
-  post '/trend/?', &app_post_trend
-  get '/trend/:id/?', &app_get_trend_id
-  delete '/trend/:id/?', &app_delete_trend_id
+  get '/?', &get_root
+  # get '/article/filter?', &get_article_with_filter
+  get '/article/?', &get_article_by_viewid
 end

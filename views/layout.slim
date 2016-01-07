@@ -5,18 +5,22 @@ html lang="en"
     title Explore with FirstGlance
     meta charset="utf-8" /
     meta content="width=device-width, initial-scale=1" name="viewport" /
+
     link rel="shortcut icon" href="/favicon.ico" /
-    link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" /
-    script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" 
-    script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
-    script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" /
+    link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/css/ion.rangeSlider.min.css" type="text/css" /
+    link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/css/ion.rangeSlider.skinNice.min.css" type="text/css" /
+
+    script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" 
+    script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
     script src="http://code.highcharts.com/highcharts.js"
     script src="//code.highcharts.com/highcharts.js"
-    script src="/chartkick.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/js/ion.rangeSlider.min.js"
+    script src="/moment.js"
 
     css:
       /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-      .row.content {height: 550px}  
+      .row.content {height: 100%}  
 
       /* Set gray background color and 100% height */
       .sidenav {
@@ -30,6 +34,14 @@ html lang="en"
       }
       
   body
+    header
+      doctype html
+      == slim :smallnav
     section
-      == styled_flash
-      == yield
+      .container-fluid
+        .row.content
+          .col-sm-9
+            == styled_flash
+            == yield
+          .col-sm-3.sidenav.hidden-xs
+            == slim :sidenav

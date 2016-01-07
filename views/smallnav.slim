@@ -1,0 +1,28 @@
+nav.navbar.navbar-inverse.visible-xs
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle data-target="#myNavbar" data-toggle="collapse" type="button"
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand href="#"  Keywords
+    / The following array is just a placeholder for now.
+    - hot_keywords = ['Facebook', 'commerce', 'Paypal', 'eBay']
+    #myNavbar.collapse.navbar-collapse
+      .input-group
+        input.form-control placeholder=("Your Keyword") type="text" /
+        span.input-group-btn
+          button.btn.btn-default type="button"
+            span.glyphicon.glyphicon-search
+      ul.nav.navbar-nav
+        li.active
+          a href="#section0"
+            span.glyphicon.glyphicon-unchecked
+            |   #{hot_keywords[0]}
+        - for i in 1..3
+          - collapse_no = "collapse#{i}"
+          li
+            <a href="##{collapse_no}">
+              span.glyphicon.glyphicon-unchecked
+              |   #{hot_keywords[i]}
+            </a>

@@ -1,4 +1,4 @@
-
+require 'date'
 
 module ApplicationHelpers
   API_BASE_URI = 'http://trendcrawl.herokuapp.com'
@@ -19,5 +19,98 @@ module ApplicationHelpers
     flash[:error] = msg
     redirect url
     halt 303        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+  end
+
+  # Suggest the default keywords based on recent tags count
+  def default_keywords(num_keywords)
+    @lastweek = (Date.today - 7).strftime('%Y/%m/%d')
+    options = { headers: { 'Content-Type' => 'application/json' },
+                query: { date_from: @lastweek } }
+    @open_url = HTTParty.get(api_url('article/filter'), options)
+    @tags_count = {}
+    @keywords = []
+    
+    # Count keywords in a hash indescending order
+    @open_url.each do |article|
+      @tag = JSON.parse(article['tags'])
+      @tag.each do |tag|
+        if @tags_count.key?(tag)
+          @tags_count[tag] += 1
+        else
+          @tags_count.merge!(tag => 1)
+        end
+      end
+    end
+    @tags_count = Hash[@tags_count.sort_by { |_, v| -v }]
+    
+    # Extract keywords with highest fresquency
+    for i in 0..num_keywords - 1
+      @keywords << @tags_count.keys[i]
+    end
+    @keywords
+  end
+
+  # Show the according links in each keyword area
+  def right_nav(tag)
+    @tags = tag
+    options = { headers: { 'Content-Type' => 'application/json' },
+                query: { tags: @tags } }
+    @open_url = HTTParty.get(api_url('article/filter'), options)
+    @list = {}
+
+    # Set the number of links to show for each keyword
+    for i in 0..link_num(5) - 1
+      viewid = @open_url[i]['link'][-5..-1] # Extract view id from article link
+      article_url = '/article?viewid=' + viewid
+      @list[@open_url[i]['title']] = article_url
+    end
+    @list
+  end
+
+  # Decide the amount of links to show on the navigators.
+  def link_num(num_links)
+    unless (@open_url.length) < num_links
+      @link_num = num_links
+    else
+      @link_num = @open_url.length
+    end
+  end
+
+  def add_keyword(keyword)
+    options = { headers: { 'Content-Type' => 'application/json' },
+                query: { tags: keyword } }
+    @open_url = HTTParty.get(api_url('article/filter'), options)
+
+    if session[:keywords].include? keyword
+      flash[:notice] = 'Keyword already exists.'
+    else
+      unless @open_url.length == 0
+        session[:keywords] << keyword
+      else
+        flash[:notice] = 'No matched articles. We cannot add this keyword.'
+      end
+    end
+
+    redirect '/'
+  end
+
+  def del_keyword(keyword)
+    session[:keywords].delete(keyword)
+    # session[:data].delete()
+    redirect '/'
+  end
+
+  def count_article(tag, articles)
+    @keyword = tag
+    @article = articles
+    @count_data = {
+      "keyword" => "#{@keyword}",
+      "data" => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+    for i in 0...@article.length
+      article_belong_which_month = Time.parse(@article[i]['date']).strftime('%m').to_i
+      @count_data['data'][article_belong_which_month - 1] += 1
+    end
+    @count_data
   end
 end

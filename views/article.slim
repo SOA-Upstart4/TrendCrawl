@@ -1,0 +1,21 @@
+.page-header
+  img src="/header.jpg" width="40%" id="header"
+ul.nav.nav-tabs
+  li id="function_tab1"
+    a href="/"
+      span.glyphicon.glyphicon-signal
+      |  Trend
+  li.active id="function_tab2"
+    a href="/article"  Article
+  li id="function_tab3"
+    a href="#"  About
+br/
+
+.well
+  - unless @article['date'].nil?
+    h3 =@article['title']
+    h5 ="撰文者：#{@article['author']}　　發表日期：#{@article['date']}"
+    img src="#{@article['imgs'][0]}" width="90%"
+    p ==@article['content'].gsub("\r", '<br>').gsub("\n", '<br>')
+  - else
+    h3 Sorry! We can't find the article.

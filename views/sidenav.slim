@@ -1,0 +1,53 @@
+h2 Keywords
+ul.nav.nav-pills.nav-stacked
+  form action="/" method="GET"
+    .input-group
+      input.form-control placeholder=("Your Keyword") type="text" name="added_word" /
+      span.input-group-btn
+        button.btn.btn-default type="submit"
+          span.glyphicon.glyphicon-search
+  br/
+  - keywords = session[:keywords]
+  #accordion.panel-group
+    .panel.panel-default
+      .panel-heading
+        li.active
+          a href="#collapse0" data-parent="#accordion" data-toggle="collapse" id="keyword0"
+            span.glyphicon.glyphicon-unchecked
+            |    #{keywords[0]}
+          div style="float: right"
+            form action="/" method="GET"
+              .input-group
+                <input class="form-control" type="hidden" name="deleted_word" value="#{keywords[0]">
+                button.btn.btn-link type="submit" style="padding: 1px"
+                  span.glyphicon.glyphicon-remove
+      #collapse0.panel-collapse.collapse.in
+        .panel-body
+          - @list = right_nav(keywords[0])
+          - @list.each do |title, link|
+            span.glyphicon.glyphicon-triangle-right
+            | <a href=#{link} target="_self">   #{title}</a>
+            p
+    - for i in 1..keywords.length-1
+      - collapse_no = "collapse#{i}"
+      .panel.panel-default
+        .panel-heading
+          li
+            <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}" id="keyword#{i}">
+              span.glyphicon.glyphicon-unchecked
+              |    #{keywords[i]}
+            </a>
+            div style="float: right"
+              form action="/" method="GET"
+                .input-group
+                  <input class="form-control" type="hidden" name="deleted_word" value="#{keywords[i]}">
+                  button.btn.btn-link type="submit" style="padding: 1px"
+                    span.glyphicon.glyphicon-remove
+        <div id=#{collapse_no} class="panel-collapse collapse">
+          .panel-body
+            - @list = right_nav(keywords[i])
+            - @list.each do |title, link|
+              span.glyphicon.glyphicon-triangle-right
+              | <a href=#{link} target="_self">   #{title}</a>
+              p
+        </div>
