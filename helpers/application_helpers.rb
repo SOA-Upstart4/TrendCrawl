@@ -3,6 +3,7 @@ require 'active_support/time'
 
 module ApplicationHelpers
   API_BASE_URI = 'http://trendcrawl.herokuapp.com'
+  #API_BASE_URI = 'http://bnext-dynamo.herokuapp.com'
   API_VER = '/api/v1/'
 
   def current_page?(path = ' ')
@@ -126,7 +127,7 @@ module ApplicationHelpers
   def set_xaxis
     past_how_many_month = 12  # set default month
     @categories = past_how_many_month.times.map do |i|
-      (Date.today - (11 - i).month).end_of_month.strftime('%Y/%m')
+      (Date.today - ((past_how_many_month - 1) - i).month).end_of_month.strftime('%Y/%m')
     end
     @categories
   end
