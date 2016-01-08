@@ -22,26 +22,34 @@ describe 'Trend Crawl' do
         page.about_link_element.exists?.must_equal true
         page.keywords_header.must_equal 'Keywords'
         page.keywords_div_element.exists?.must_equal true
+        page.plot_div_element.exists?.must_equal true
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 4
       end
     end
-  end
 
-  describe 'Go to trend_bs page' do
-    it 'show plot' do
-      visit TrendPage do |page|
-        page.click_trend_tab
+    it 'should add new keyword' do
+      visit HomePage do |page|
+        page.add_keyword('EC')
 
-        page.plot_element.present?.must_equal true
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 5
+      end
+    end
+
+    it 'should delete a keyword' do
+      visit HomePage do |page|
+        page.delete_keword
+
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 3
       end
     end
   end
 
   describe 'Go to article_bs page' do
-    it 'show article' do
+    it 'should show default message' do
       visit ArticlePage do |page|
         page.click_article_tab
 
-        page.header_temp.must_equal 'Contents'
+        page.default_msg.must_equal "Sorry! We can't find the article."
       end
     end
   end

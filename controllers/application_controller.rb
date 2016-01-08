@@ -25,38 +25,41 @@ class ApplicationController < Sinatra::Base
 
   # Web functions
   get_root = lambda do
-    session[:hot_keywords] ||= ['Facebook', 'commerce', 'Paypal', 'eBay']
-    # Keywords should change later
+    session[:keywords] ||= default_keywords(6)
 
     @added_word = params['added_word']
     @deleted_word = params['deleted_word']
 
-    add_keyword(@added_word) if @added_word 
-    delete_keyword(@deleted_word) if @deleted_word
+    add_keyword(@added_word) if @added_word
+    del_keyword(@deleted_word) if @deleted_word
 
-    slim :trend
-  end
-
-  get_article_with_filter = lambda do
+    ## show trend line
+    @data_count = []
     @tags = params['tags']
     @author = params['author']
     @title = params['title']
-    # @tags = 'Facebook'  #testing
 
-    options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags, :author => @author, :title => @title } }
-    @article = HTTParty.get(api_url('article/filter'), options)
+    for i in 0...session[:keywords].length
+      @tags = session[:keywords][i]  #testing
 
-    if @article.nil?
-      flash[:notice] = 'No matched articles.'
-      redirect '/trend'
-      return nil
+      options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
+      @article = HTTParty.get(api_url('article/filter?'), options)
+
+      if @article.nil?
+        flash[:notice] = 'No matched articles.'
+        redirect '/'
+        return nil
+      else
+        @data = count_article(@tags, @article)
+        @data_count[i] = @data
+      end
     end
 
     slim :trend
   end
 
   get_article_by_viewid = lambda do
-    @viewid = params['viewid']    
+    @viewid = params['viewid']
     # @viewid = '38036'  #testing
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
     @article = HTTParty.get(api_url('article'), options)
@@ -72,6 +75,5 @@ class ApplicationController < Sinatra::Base
 
   # Web App Views Routes
   get '/?', &get_root
-  get '/article/filter?', &get_article_with_filter
   get '/article/?', &get_article_by_viewid
 end
