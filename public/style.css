@@ -32,6 +32,7 @@ a {
 .well {
   background-color: #fff;
   border-color: #5bc85c;
+  position: relative;
 }
 
 .sidenav {

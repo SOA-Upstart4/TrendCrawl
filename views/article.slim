@@ -18,8 +18,23 @@ br/
 
 .well
   - unless @article['date'].nil?
+    a.btn.btn-success.btn-sm href="#{@article['link']}" role="button" target="_blank" style="position: absolute; right:0; top:0; border: 0;"
+      span.glyphicon.glyphicon-share-alt
+      |  original post
     h3 =@article['title']
-    h5 ="撰文者：#{@article['author']}　　發表日期：#{@article['date']}"
+    .row
+      .col-sm-3
+        p
+          span.glyphicon.glyphicon-user
+          |  撰文者:
+          =@article['author']
+      .col-sm-4
+        p
+          span.glyphicon.glyphicon-calendar
+          |  發表日期：
+          =@article['date']
+      .col-sm-5
+        p
     img src="#{@article['imgs'][0]}" width="90%"
     p ==@article['content'].gsub("\r", '<br>').gsub("\n", '<br>')
   - else
