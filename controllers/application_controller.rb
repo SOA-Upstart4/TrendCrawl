@@ -59,6 +59,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get_article_by_viewid = lambda do
+    session[:keywords] ||= default_keywords(6)
     @viewid = params['viewid']
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
     @article = HTTParty.get(api_url('article'), options)
@@ -74,8 +75,13 @@ class ApplicationController < Sinatra::Base
     slim :article
   end
 
+  get_about = lambda do
+    session[:keywords] ||= default_keywords(6)
+    slim :about
+  end
+
   # Web App Views Routes
   get '/?', &get_root
-  # get '/article/filter?', &get_article_with_filter
   get '/article/?', &get_article_by_viewid
+  get '/about/?', &get_about
 end
