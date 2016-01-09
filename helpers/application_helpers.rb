@@ -3,7 +3,7 @@ require 'active_support/time'
 
 module ApplicationHelpers
   API_BASE_URI = 'http://trendcrawl.herokuapp.com'
-  #API_BASE_URI = 'http://bnext-dynamo.herokuapp.com'
+  # API_BASE_URI = 'http://bnext-dynamo.herokuapp.com'
   API_VER = '/api/v1/'
 
   def current_page?(path = ' ')
@@ -44,7 +44,6 @@ module ApplicationHelpers
       end
     end
     @tags_count = Hash[@tags_count.sort_by { |_, v| -v }]
-
     # Extract keywords with highest fresquency
     for i in 0..num_keywords - 1
       @keywords << @tags_count.keys[i]
