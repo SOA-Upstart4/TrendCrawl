@@ -12,6 +12,17 @@ describe 'Trend Crawl' do
     @browser.goto 'localhost:9292'
   end
 
+  describe 'Go to about page' do
+    it 'should show information' do
+      visit AboutPage do |page|
+        page.bnext_link_element.enabled?.must_equal true
+        page.home_link_element.exist?.must_equal true
+        page.iss_link_element.exist?.must_equal true
+        page.github_link_element.exist?.must_equal true
+      end
+    end
+  end
+=begin
   describe 'Go to home page' do
     it 'finds title & header & three tabs & keywords area' do
       # GIVEN
@@ -51,6 +62,7 @@ describe 'Trend Crawl' do
       end
     end
   end
+
   describe 'Go to article page' do
     it 'should show default three articles' do
       # GIVEN
@@ -77,4 +89,5 @@ describe 'Trend Crawl' do
       end
     end
   end
+=end
 end
