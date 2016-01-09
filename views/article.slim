@@ -21,8 +21,8 @@ br/
     a.btn.btn-success.btn-sm href="#{@article['link']}" role="button" target="_blank" style="position: absolute; right:0; top:0; border: 0;"
       span.glyphicon.glyphicon-share-alt
       |  original post
-    h3 =@article['title']
-    .row
+    h3 id="title" =@article['title']
+    .row id="author_date"
       .col-sm-3
         p
           span.glyphicon.glyphicon-user
