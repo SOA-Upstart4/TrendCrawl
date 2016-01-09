@@ -25,13 +25,12 @@ br/
       hr
       p
       .row
-        - 6.times do
+        - for i in 0..2
           .col-sm-6.col-md-4
-            h4 Category
             .thumbnail
-              img src="https://3.bp.blogspot.com/-EKhTKd8xrFM/Vo3nTtIZNtI/AAAAAAABv1M/_qpYakpKT4A/s600/086.jpg" /
+              img src="#{@card[i]['imgs'][0]}" /
               .caption
-                h3 Title
-                p Abstract
+                h4 =@card[i]['title']
                 p
-                  a.btn.btn-default href="#" role="button"  Read Article
+                  - @link = '/article?viewid=' + @card[i]['link'][-5..-1]
+                  a.btn.btn-default href="#{@link}" role="button" target="_self"  Read Article

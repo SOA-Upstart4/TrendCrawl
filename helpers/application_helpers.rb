@@ -96,7 +96,6 @@ module ApplicationHelpers
 
   def del_keyword(keyword)
     session[:keywords].delete(keyword)
-    # session[:data].delete()
     redirect '/'
   end
 
@@ -112,5 +111,18 @@ module ApplicationHelpers
       @count_data['data'][article_belong_which_month - 1] += 1
     end
     @count_data
+  end
+
+  def dayrank_article
+    @artc = []
+    opt1 = { headers: { 'Content-Type' => 'application/json' } }
+    @dayrank = HTTParty.get(api_url('dayrank'), opt1)
+
+    @dayrank.each do |feed|
+      @vid = feed['link'][-5..-1]
+      opt2 = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @vid } }
+      @artc << HTTParty.get(api_url('article'), opt2)
+    end
+    @artc
   end
 end
