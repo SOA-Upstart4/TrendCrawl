@@ -44,11 +44,11 @@ br/
       p
       hr
       p
-      .row
+      .row id="three_default_article"
         - for i in 0..2
           .col-sm-4
             .thumbnail
-              img src="#{@card[i]['imgs'][0]}" /
+              img src="#{@card[i]['imgs'][0]}"  /
               .caption
                 h4 =@card[i]['title']
                 p

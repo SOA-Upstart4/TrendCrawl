@@ -1,11 +1,10 @@
-.bands
-  h3 Keywords
-ul.nav.nav-pills.nav-stacked
+h2 Keywords
+ul.nav.nav-pills.nav-stacked id="keyword_list"
   form action="/" method="GET"
     .input-group
-      input.form-control placeholder=("Your Keyword") type="text" name="added_word" /
+      input.form-control placeholder=("Your Keyword") type="text" name="added_word" id="add_keyword_side"/
       span.input-group-btn
-        button.btn.btn-warning type="submit"
+        button.btn.btn-default type="submit" id="search"
           span.glyphicon.glyphicon-search
   br/
   - keywords = session[:keywords]
@@ -20,7 +19,7 @@ ul.nav.nav-pills.nav-stacked
             form action="/" method="GET"
               .input-group
                 <input class="form-control" type="hidden" name="deleted_word" value="#{keywords[0]}">
-                button.btn.btn-link type="submit" style="padding: 1px"
+                button.btn.btn-link type="submit" style="padding: 1px" id="delete_first"
                   span.glyphicon.glyphicon-remove
       #collapse0.panel-collapse.collapse.in
         .panel-body

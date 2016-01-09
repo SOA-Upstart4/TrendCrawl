@@ -35,6 +35,7 @@ class ApplicationController < Sinatra::Base
 
     ## show trend line
     @data_count = []
+    @categories = set_xaxis
     @tags = params['tags']
     @author = params['author']
     @title = params['title']
@@ -47,7 +48,7 @@ class ApplicationController < Sinatra::Base
 
       if @article.nil?
         flash[:notice] = 'No matched articles.'
-        redirect '/trend'
+        redirect '/'
         return nil
       else
         @data = count_article(@tags, @article)
