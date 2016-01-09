@@ -11,7 +11,7 @@ class ArticlePage
 
   h3(:article_title, id: 'title')
   h5(:article_author_date, id: 'author_date')
-  link(:read_article_link, class: 'btn btn-default')
+  link(:read_article_link, class: 'btn btn-success')
 
   def click_article_tab
     article_link

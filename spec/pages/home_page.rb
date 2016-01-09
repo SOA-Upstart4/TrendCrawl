@@ -9,7 +9,7 @@ class HomePage
   link(:article_link, text: 'Article')
   link(:about_link, text: 'About')
   image(:header_img, id: 'header')
-  h2(:keywords_header, text: 'Keywords')
+  h3(:keywords_header, text: 'Keywords')
   div(:keywords_div, class: 'col-sm-3')
   div(:plot_div, id: 'plot')
   text_field(:search_keyword, id: 'add_keyword_side')
