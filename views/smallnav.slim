@@ -19,7 +19,7 @@ nav.navbar.navbar-inverse.visible-xs
         #accordion_bs.panel-group
           - for i in 0..keywords.length-1
             - collapse_bs_no = "collapse_bs#{i}"
-            .panel.panel-default
+            .panel
               .panel-heading
                 li
                   <a data-toggle="collapse" data-parent="#accordion_bs" href="##{collapse_bs_no}" id="keyword#{i}">
@@ -40,4 +40,3 @@ nav.navbar.navbar-inverse.visible-xs
                     | <a href=#{link} target="_self">   #{title}</a>
                     p
               </div>
-              

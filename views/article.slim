@@ -6,9 +6,13 @@ ul.nav.nav-tabs
       span.glyphicon.glyphicon-signal
       |  Trend
   li.active id="function_tab2"
-    a href="/article"  Article
+    a href="/article"
+      span.glyphicon.glyphicon-file
+      |  Article
   li id="function_tab3"
-    a href="#"  About
+    a href="#"
+      span.glyphicon.glyphicon-info-sign
+      |  About
 br/
 
 .well
@@ -33,4 +37,4 @@ br/
                 h4 =@card[i]['title']
                 p
                   - @link = '/article?viewid=' + @card[i]['link'][-5..-1]
-                  a.btn.btn-default href="#{@link}" role="button" target="_self"  Read Article
+                  a.btn.btn-success href="#{@link}" role="button" target="_self"  Read Article
