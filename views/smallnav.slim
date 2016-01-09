@@ -16,13 +16,13 @@ nav.navbar.navbar-inverse.visible-xs
               button.btn.btn-default type="submit"
                 span.glyphicon.glyphicon-search
         p
-        #accordion.panel-group
+        #accordion_bs.panel-group
           - for i in 0..keywords.length-1
-            - collapse_no = "collapse#{i}"
+            - collapse_bs_no = "collapse_bs#{i}"
             .panel.panel-default
               .panel-heading
                 li
-                  <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}" id="keyword#{i}">
+                  <a data-toggle="collapse" data-parent="#accordion_bs" href="##{collapse_bs_no}" id="keyword#{i}">
                     span.glyphicon.glyphicon-unchecked
                     |    #{keywords[i]}
                   </a>
@@ -32,7 +32,7 @@ nav.navbar.navbar-inverse.visible-xs
                         <input class="form-control" type="hidden" name="deleted_word" value="#{keywords[i]}">
                         button.btn.btn-link type="submit" style="padding: 1px"
                           span.glyphicon.glyphicon-remove
-              <div id=#{collapse_no} class="panel-collapse collapse">
+              <div id=#{collapse_bs_no} class="panel-collapse collapse">
                 .panel-body
                   - @list = nav(keywords[i], 3)
                   - @list.each do |title, link|
