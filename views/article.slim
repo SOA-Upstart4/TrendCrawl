@@ -1,6 +1,6 @@
 .page-header
   img src="/header.jpg" width="40%" id="header"
-  
+
 ul.nav.nav-tabs
   li id="function_tab1"
     a href="/"
@@ -11,7 +11,7 @@ ul.nav.nav-tabs
       span.glyphicon.glyphicon-file
       |  Article
   li id="function_tab3"
-    a href="#"
+    a href="/about"
       span.glyphicon.glyphicon-info-sign
       |  About
 br/
@@ -31,7 +31,7 @@ br/
       p
       .row
         - for i in 0..2
-          .col-sm-6.col-md-4
+          .col-sm-4
             .thumbnail
               img src="#{@card[i]['imgs'][0]}" /
               .caption

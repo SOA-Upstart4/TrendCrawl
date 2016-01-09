@@ -79,6 +79,11 @@ a {
   color: #f0ad4e
 }
 
+.jumbotron {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
 /* On small screens, set height to 'auto' for the grid */
 @media screen and (max-width: 767px) {
   .row.content {height: auto;}
