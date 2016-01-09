@@ -52,7 +52,7 @@ module ApplicationHelpers
   end
 
   # Show the according links in each keyword area
-  def right_nav(tag)
+  def nav(tag, num)
     @tags = tag
     options = { headers: { 'Content-Type' => 'application/json' },
                 query: { tags: @tags } }
@@ -60,7 +60,7 @@ module ApplicationHelpers
     @list = {}
 
     # Set the number of links to show for each keyword
-    for i in 0..link_num(5) - 1
+    for i in 0..link_num(num) - 1
       viewid = @open_url[i]['link'][-5..-1] # Extract view id from article link
       article_url = '/article?viewid=' + viewid
       @list[@open_url[i]['title']] = article_url
@@ -97,7 +97,6 @@ module ApplicationHelpers
 
   def del_keyword(keyword)
     session[:keywords].delete(keyword)
-    # session[:data].delete()
     redirect '/'
   end
 
@@ -129,5 +128,18 @@ module ApplicationHelpers
       (Date.today - ((past_how_many_month - 1) - i).month).end_of_month.strftime('%Y/%m')
     end
     @categories
+  end
+
+  def dayrank_article
+    @artc = []
+    opt1 = { headers: { 'Content-Type' => 'application/json' } }
+    @dayrank = HTTParty.get(api_url('dayrank'), opt1)
+
+    @dayrank.each do |feed|
+      @vid = feed['link'][-5..-1]
+      opt2 = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @vid } }
+      @artc << HTTParty.get(api_url('article'), opt2)
+    end
+    @artc
   end
 end

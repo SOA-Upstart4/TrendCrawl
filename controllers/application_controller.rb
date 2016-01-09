@@ -41,7 +41,7 @@ class ApplicationController < Sinatra::Base
     @title = params['title']
 
     for i in 0...session[:keywords].length
-      @tags = session[:keywords][i]  #testing
+      @tags = session[:keywords][i]
 
       options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
       @article = HTTParty.get(api_url('article/filter?'), options)
@@ -61,9 +61,10 @@ class ApplicationController < Sinatra::Base
 
   get_article_by_viewid = lambda do
     @viewid = params['viewid']
-    # @viewid = '38036'  #testing
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
     @article = HTTParty.get(api_url('article'), options)
+    
+    @card = dayrank_article
 
     if @article.code != 200
       flash[:notice] = 'Getteing article error.'
