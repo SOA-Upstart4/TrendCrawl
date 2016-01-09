@@ -1,4 +1,5 @@
-h2 Keywords
+.bands
+  h3 Keywords
 ul.nav.nav-pills.nav-stacked id="keyword_list"
   form action="/" method="GET"
     .input-group
@@ -9,7 +10,7 @@ ul.nav.nav-pills.nav-stacked id="keyword_list"
   br/
   - keywords = session[:keywords]
   #accordion.panel-group
-    .panel.panel-default
+    .panel
       .panel-heading
         li.active
           a href="#collapse0" data-parent="#accordion" data-toggle="collapse" id="keyword0"
@@ -30,7 +31,7 @@ ul.nav.nav-pills.nav-stacked id="keyword_list"
             p
     - for i in 1..keywords.length-1
       - collapse_no = "collapse#{i}"
-      .panel.panel-default
+      .panel
         .panel-heading
           li
             <a data-toggle="collapse" data-parent="#accordion" href="##{collapse_no}" id="keyword#{i}">

@@ -1,4 +1,4 @@
-div style="float: left; margin-top: 14px; margin-bottom: 16px"
+.page-header
   img src="/header.jpg" width="40%" id="header"
 
 ul.nav.nav-tabs
@@ -7,13 +7,17 @@ ul.nav.nav-tabs
       span.glyphicon.glyphicon-signal
       |  Trend
   li id="function_tab2"
-    a href="/article"  Article
+    a href="/article"
+      span.glyphicon.glyphicon-file
+      |  Article
   li id="function_tab3"
-    a href="#"  About
+    a href="/about"
+      span.glyphicon.glyphicon-info-sign
+      |  About
 
 / Date slider
-.col-sm-12
-  div id="range" style="width:100%; height:150px; margin:15px"
+.col-sm-12 style="margin-top:10px; margin-bottom:10px;"
+  div id="range" style="width:100%; height:150px;"
     javascript:
       $(function () {
         $("#range").ionRangeSlider({
@@ -82,3 +86,5 @@ br /
                   series : series
               });
           });
+
+  div style="height: 260px;"

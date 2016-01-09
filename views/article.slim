@@ -1,14 +1,19 @@
 .page-header
   img src="/header.jpg" width="40%" id="header"
+
 ul.nav.nav-tabs
   li id="function_tab1"
     a href="/"
       span.glyphicon.glyphicon-signal
       |  Trend
   li.active id="function_tab2"
-    a href="/article"  Article
+    a href="/article"
+      span.glyphicon.glyphicon-file
+      |  Article
   li id="function_tab3"
-    a href="#"  About
+    a href="/about"
+      span.glyphicon.glyphicon-info-sign
+      |  About
 br/
 
 .well
@@ -26,11 +31,12 @@ br/
       p
       .row id="three_default_article"
         - for i in 0..2
-          .col-sm-6.col-md-4
+          .col-sm-4
             .thumbnail
               img src="#{@card[i]['imgs'][0]}"  /
               .caption
                 h4 =@card[i]['title']
                 p
                   - @link = '/article?viewid=' + @card[i]['link'][-5..-1]
-                  a.btn.btn-default href="#{@link}" role="button" target="_self"  Read Article
+                  a.btn.btn-success href="#{@link}" role="button" target="_self"  Read Article
+      div style="height: 200px;"
