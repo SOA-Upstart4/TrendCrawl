@@ -16,23 +16,23 @@ ul.nav.nav-tabs
       |  About
 
 / Date slider
-.col-sm-12 style="margin-top:10px; margin-bottom:10px;"
-  div id="range" style="width:100%; height:150px;"
-    javascript:
-      $(function () {
-        $("#range").ionRangeSlider({
-          min: +moment().subtract(2, "years").format("X"),
-          max: +moment().format("X"),
-          from: +moment().subtract(11, "months").format("X"),
-          to: +moment().format("X"),
-          type: "double",
-          prettify: function (num) {
-              return moment(num, "X").format("YYYY/MM");
-          }
-        });
-      });
+/.col-sm-12 style="margin-top:10px; margin-bottom:10px;"
+/  div id="range" style="width:100%; height:150px;"
+/    javascript:
+/      $(function () {
+/        $("#range").ionRangeSlider({
+/          min: +moment().subtract(2, "years").format("X"),
+/          max: +moment().format("X"),
+/          from: +moment().subtract(11, "months").format("X"),
+/          to: +moment().format("X"),
+/          type: "double",
+/          prettify: function (num) {
+/              return moment(num, "X").format("YYYY/MM");
+/          }
+/        });
+/      });/
 
-    input#range name="range" type="text" value="" /
+/    input#range name="range" type="text" value="" /
 br /
 
 .col-sm-12
