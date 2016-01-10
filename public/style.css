@@ -1,14 +1,91 @@
-html, body
-{
-	height: 100%;
+html{
+    min-height:100%; /* make sure it is at least as tall as the viewport */
+    position:relative;
 }
 
 body {
-	margin: 0px;
-	padding: 0px;
-	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 12pt;
-	font-weight: 400;
-	color: #000000;
+	color: #555;
+	height:100%;
 }
 
+a {
+	color: #555;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 100%}
+
+.panel-body {
+  background-color: #fff;
+}
+
+.panel-heading a {
+  color: #f0ad4e;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btn.btn-link {
+  color: #555;
+}
+
+.well {
+  background-color: #fff;
+  border-color: #5bc85c;
+  position: relative;
+}
+
+.sidenav {
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  overflow:hidden;
+  background-color: #eee;
+  height: 100%;
+}
+
+.bands {
+  background-color: #5bc85c;
+  color: #fff;
+  height: 45px;
+  line-height: 45px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.bands h3 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  letter-spacing: 4px;
+}
+
+.page-header {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 0;
+}
+
+.nav.nav-tabs {
+  letter-spacing: 2px;
+}
+
+.nav-tabs li a {
+  color: #5bc85c;
+}
+
+.nav-tabs li.active a {
+  color: #f0ad4e
+}
+
+.jumbotron {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+  .row.content {height: auto;}
+}
