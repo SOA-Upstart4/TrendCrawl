@@ -83,9 +83,13 @@ describe 'Trend Crawl' do
     it 'should show information' do
       visit AboutPage do |page|
         page.bnext_link_element.enabled?.must_equal true
-        page.home_link_element.exist?.must_equal true
-        page.iss_link_element.exist?.must_equal true
-        page.github_link_element.exist?.must_equal true
+        page.home_link_element.enabled?.must_equal true
+        page.iss_link_element.enabled?.must_equal true
+        page.github_link_element.enabled?.must_equal true
+        page.jacky_img_element.must_be :visible?
+        page.hw_img_element.must_be :visible?
+        page.edison_img_element.must_be :visible?
+        page.angela_img_element.must_be :visible?
       end
     end
   end
