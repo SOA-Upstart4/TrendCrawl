@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
   # Web functions
   get_root = lambda do
-    session[:keywords] ||= default_keywords(6)
+    session[:keywords] ||= default_keywords(4)
 
     @added_word = params['added_word']
     @deleted_word = params['deleted_word']
@@ -46,43 +46,32 @@ class ApplicationController < Sinatra::Base
       options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
       @article = HTTParty.get(api_url('article/filter?'), options)
 
-      if @article.nil?
-        flash[:notice] = 'No matched articles.'
-        redirect '/'
-        return nil
-      else
-        @data = count_article(@tags, @article)
-        @data_count[i] = @data
-      end
+      @data = count_article(@tags, @article)
+      @data_count[i] = @data
     end
 
     slim :trend
   end
 
-  get_article_by_viewid = lambda do
+  get_article = lambda do
     session[:keywords] ||= default_keywords(6)
     @viewid = params['viewid']
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
     @article = HTTParty.get(api_url('article'), options)
-    
+     
     @card = dayrank_article
-
-    if @article.code != 200
-      flash[:notice] = 'Getteing article error.'
-      redirect '/article'
-      return nil
-    end
 
     slim :article
   end
 
   get_about = lambda do
     session[:keywords] ||= default_keywords(6)
+
     slim :about
   end
 
   # Web App Views Routes
   get '/?', &get_root
-  get '/article/?', &get_article_by_viewid
+  get '/article/?', &get_article
   get '/about/?', &get_about
 end
