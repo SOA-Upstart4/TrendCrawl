@@ -35,12 +35,13 @@ class ApplicationController < Sinatra::Base
 
     ## show trend line
     @data_count = []
+    @categories = set_xaxis
     @tags = params['tags']
     @author = params['author']
     @title = params['title']
 
     for i in 0...session[:keywords].length
-      @tags = session[:keywords][i]  #testing
+      @tags = session[:keywords][i]
 
       options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
       @article = HTTParty.get(api_url('article/filter?'), options)
@@ -59,10 +60,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get_article_by_viewid = lambda do
+    session[:keywords] ||= default_keywords(6)
     @viewid = params['viewid']
-    # @viewid = '38036'  #testing
     options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
     @article = HTTParty.get(api_url('article'), options)
+    
+    @card = dayrank_article
 
     if @article.code != 200
       flash[:notice] = 'Getteing article error.'
@@ -73,7 +76,13 @@ class ApplicationController < Sinatra::Base
     slim :article
   end
 
+  get_about = lambda do
+    session[:keywords] ||= default_keywords(6)
+    slim :about
+  end
+
   # Web App Views Routes
   get '/?', &get_root
   get '/article/?', &get_article_by_viewid
+  get '/about/?', &get_about
 end
