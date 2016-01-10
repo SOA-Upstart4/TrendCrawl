@@ -40,37 +40,30 @@ class ApplicationController < Sinatra::Base
     @author = params['author']
     @title = params['title']
 
-    for i in 0...session[:keywords].length
+    for i in 0..session[:keywords].length
       @tags = session[:keywords][i]
 
       options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
       @article = HTTParty.get(api_url('article/filter?'), options)
 
-      if @article.nil?
-        flash[:notice] = 'No matched articles.'
-        redirect '/'
-        return nil
-      else
-        @data = count_article(@tags, @article)
-        @data_count[i] = @data
-      end
+      @data = count_article(@tags, @article)
+      @data_count[i] = @data
     end
 
     slim :trend
   end
 
-  get_article_by_viewid = lambda do
+  get_article = lambda do
     session[:keywords] ||= default_keywords(6)
-    @viewid = params['viewid']
-    options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
-    @article = HTTParty.get(api_url('article'), options)
-    
-    @card = dayrank_article
+    if params['viewid']
+      @viewid = params['viewid']
+      options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
+      @article = HTTParty.get(api_url('article'), options)
 
-    if @article.code != 200
-      flash[:notice] = 'Getteing article error.'
-      redirect '/article'
-      return nil
+      @error_msg = 'The article view id does not exist'
+      error_send('/article', @error_msg) if @article['title'].length == 0
+    else
+      @card = dayrank_article
     end
 
     slim :article
@@ -78,11 +71,12 @@ class ApplicationController < Sinatra::Base
 
   get_about = lambda do
     session[:keywords] ||= default_keywords(6)
+
     slim :about
   end
 
   # Web App Views Routes
   get '/?', &get_root
-  get '/article/?', &get_article_by_viewid
+  get '/article/?', &get_article
   get '/about/?', &get_about
 end

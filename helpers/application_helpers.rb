@@ -18,7 +18,7 @@ module ApplicationHelpers
   end
 
   def error_send(url, msg)
-    flash[:error] = msg
+    flash[:notice] = msg
     redirect url
     halt 303        # http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
   end
