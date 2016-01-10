@@ -40,7 +40,7 @@ class ApplicationController < Sinatra::Base
     @author = params['author']
     @title = params['title']
 
-    for i in 0..session[:keywords].length
+    for i in 0...session[:keywords].length
       @tags = session[:keywords][i]
 
       options = { headers: { 'Content-Type' => 'application/json' }, query: { :tags => @tags } }
