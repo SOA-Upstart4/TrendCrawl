@@ -1,7 +1,7 @@
 # Hello! [ ![Codeship Status for SOA-Upstart4/TrendCrawl](https://codeship.com/projects/ca8a4bd0-7999-0133-2e51-7addd7fed507/status?branch=master)](https://codeship.com/projects/118772) 
 ### Come and explore with FirstGlance
 
-[FirstGlance](http://trendcrawl.herokuapp.com) is a web service that helps our users to explore the trending topics in Taiwan and all over the world based on the articles from [Business Next](www.bnext.com.tw/).
+[FirstGlance](https://bnextrend.herokuapp.com/) is a web service that helps our users to explore the trending topics in Taiwan and all over the world based on the articles from [Business Next](www.bnext.com.tw/).
 
 #### How to use it?
 
