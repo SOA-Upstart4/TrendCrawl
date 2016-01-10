@@ -55,16 +55,11 @@ class ApplicationController < Sinatra::Base
 
   get_article = lambda do
     session[:keywords] ||= default_keywords(6)
-    if params['viewid']
-      @viewid = params['viewid']
-      options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
-      @article = HTTParty.get(api_url('article'), options)
-
-      @error_msg = 'The article view id does not exist'
-      error_send('/article', @error_msg) if @article['title'].length == 0
-    else
-      @card = dayrank_article
-    end
+    @viewid = params['viewid']
+    options = { headers: { 'Content-Type' => 'application/json' }, query: { :viewid => @viewid } }
+    @article = HTTParty.get(api_url('article'), options)
+     
+    @card = dayrank_article
 
     slim :article
   end
