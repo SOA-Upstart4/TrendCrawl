@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
   # Web functions
   get_root = lambda do
-    session[:keywords] ||= default_keywords(6)
+    session[:keywords] ||= default_keywords(4)
 
     @added_word = params['added_word']
     @deleted_word = params['deleted_word']

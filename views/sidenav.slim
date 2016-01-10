@@ -24,7 +24,7 @@ ul.nav.nav-pills.nav-stacked id="keyword_list"
                   span.glyphicon.glyphicon-remove
       #collapse0.panel-collapse.collapse.in
         .panel-body
-          - @list = nav(keywords[0], 5)
+          - @list = nav(keywords[0], 4)
           - @list.each do |title, link|
             span.glyphicon.glyphicon-triangle-right
             | <a href=#{link} target="_self">   #{title}</a>
@@ -46,7 +46,7 @@ ul.nav.nav-pills.nav-stacked id="keyword_list"
                     span.glyphicon.glyphicon-remove
         <div id=#{collapse_no} class="panel-collapse collapse">
           .panel-body
-            - @list = nav(keywords[i], 5)
+            - @list = nav(keywords[i], 4)
             - @list.each do |title, link|
               span.glyphicon.glyphicon-triangle-right
               | <a href=#{link} target="_self">   #{title}</a>

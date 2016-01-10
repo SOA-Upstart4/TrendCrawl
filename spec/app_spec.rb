@@ -25,7 +25,7 @@ describe 'Trend Crawl' do
         page.keywords_header.must_equal 'Keywords'
         page.keywords_div_element.exists?.must_equal true
         page.plot_div_element.exists?.must_equal true
-        @browser.ul(id: 'keyword_list').lis.length.must_equal 6
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 4
       end
     end
 
@@ -36,7 +36,7 @@ describe 'Trend Crawl' do
         page.add_keyword('EC')
 
         # THEN
-        @browser.ul(id: 'keyword_list').lis.length.must_equal 7
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 5
       end
     end
 
@@ -47,10 +47,11 @@ describe 'Trend Crawl' do
         page.delete_keword
 
         # THEN
-        @browser.ul(id: 'keyword_list').lis.length.must_equal 5
+        @browser.ul(id: 'keyword_list').lis.length.must_equal 3
       end
     end
   end
+
   describe 'Go to article page' do
     it 'should show default three articles' do
       # GIVEN
@@ -74,6 +75,21 @@ describe 'Trend Crawl' do
         # THEN
         page.article_title_element.exists?.must_equal true
         page.article_author_date_element.exists?.must_equal true
+      end
+    end
+  end
+
+  describe 'Go to about page' do
+    it 'should show information' do
+      visit AboutPage do |page|
+        page.bnext_link_element.enabled?.must_equal true
+        page.home_link_element.enabled?.must_equal true
+        page.iss_link_element.enabled?.must_equal true
+        page.github_link_element.enabled?.must_equal true
+        page.jacky_img_element.must_be :visible?
+        page.hw_img_element.must_be :visible?
+        page.edison_img_element.must_be :visible?
+        page.angela_img_element.must_be :visible?
       end
     end
   end
