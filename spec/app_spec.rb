@@ -74,7 +74,7 @@ describe 'Trend Crawl' do
 
         # THEN
         page.article_title_element.exists?.must_equal true
-        page.article_author_date_element.exists?.must_equal true
+        page.article_author_date_div_element.exists?.must_equal true
       end
     end
   end

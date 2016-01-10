@@ -10,7 +10,7 @@ class ArticlePage
   div(:article_div, id: 'three_default_article')
 
   h3(:article_title, id: 'title')
-  h5(:article_author_date, id: 'author_date')
+  div(:article_author_date_div, id: 'author_date')
   link(:read_article_link, class: 'btn btn-success')
 
   def click_article_tab
